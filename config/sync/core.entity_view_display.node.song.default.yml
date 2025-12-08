@@ -1,0 +1,39 @@
+uuid: 3454ce6e-75fa-4f1c-974a-19d18338cc61
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.song.field_duration
+    - field.field.node.song.field_spotify_id
+    - node.type.song
+  module:
+    - hms_field
+    - user
+id: node.song.default
+targetEntityType: node
+bundle: song
+mode: default
+content:
+  field_duration:
+    type: hms_default_formatter
+    label: above
+    settings:
+      format: 'h:mm'
+      leading_zero: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_spotify_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

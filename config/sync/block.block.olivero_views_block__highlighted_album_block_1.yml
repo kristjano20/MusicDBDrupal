@@ -1,0 +1,24 @@
+uuid: 7b5106ac-165e-4711-876a-07475dd5973f
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.highlighted_album
+  module:
+    - views
+  theme:
+    - olivero
+id: olivero_views_block__highlighted_album_block_1
+theme: olivero
+region: sidebar
+weight: -7
+provider: null
+plugin: 'views_block:highlighted_album-block_1'
+settings:
+  id: 'views_block:highlighted_album-block_1'
+  label: 'Plata vikunar'
+  label_display: visible
+  provider: views
+  views_label: 'Plata vikunar'
+  items_per_page: null
+visibility: {  }

@@ -1,0 +1,21 @@
+uuid: e5d0eda0-fd4b-4bc6-8993-85b19868df08
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dateofdeath
+    - node.type.artist
+  module:
+    - datetime
+id: node.artist.field_dateofdeath
+field_name: field_dateofdeath
+entity_type: node
+bundle: artist
+label: 'Dánardagur (hljómsveit hættir)'
+description: "Dánardagur listamanns, eingöngu notað ef viðkomandi er fallin/n frá.\r\nDagsetningin þegar hljómsveit hætti ef hljómsveitin er hætt.\r\nEf einungis ártal er vitað þá skal skrá dagsetninguna sem 1. janúar.\r\nEf ártal og mánuður er vitað skal skrá dag sem 1. viðkomandi mánaðar."
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

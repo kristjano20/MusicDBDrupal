@@ -1,0 +1,14 @@
+uuid: 646276e5-832c-4a5a-809c-8d29f9c077d2
+langcode: en
+status: true
+dependencies: {  }
+name: landscape
+label: 'Landscape (800x600)'
+effects:
+  aab634c1-1a3e-4f37-9b98-08e7a8f8bc1c:
+    uuid: aab634c1-1a3e-4f37-9b98-08e7a8f8bc1c
+    id: image_resize
+    weight: 1
+    data:
+      width: 800
+      height: 600

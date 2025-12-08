@@ -1,0 +1,29 @@
+uuid: cbbc641e-9661-4522-966c-ac01d2373e7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_other_images
+    - media.type.image
+    - node.type.artist
+id: node.artist.field_other_images
+field_name: field_other_images
+entity_type: node
+bundle: artist
+label: 'Aðrar myndir'
+description: 'Aðrar myndir af flytjanda, hámark 5 myndir.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

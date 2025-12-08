@@ -1,0 +1,21 @@
+uuid: 4db45034-89cc-45d4-be36-fea3f7c97fda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_higlighted
+    - node.type.album
+id: node.album.field_higlighted
+field_name: field_higlighted
+entity_type: node
+bundle: album
+label: 'Sýna á forsíðu'
+description: 'Hak sem að segir hvort að platan eigi að birtast á forsíðu í highlighted glugga, gæti t.d. verið plata vikunnar.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Highlighted
+  off_label: 'Off'
+field_type: boolean

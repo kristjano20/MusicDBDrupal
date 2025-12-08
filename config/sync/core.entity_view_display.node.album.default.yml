@@ -1,0 +1,89 @@
+uuid: 5889644d-19b8-412d-8d8a-d39140f5eb72
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.album.field_about
+    - field.field.node.album.field_artist
+    - field.field.node.album.field_cover
+    - field.field.node.album.field_higlighted
+    - field.field.node.album.field_lagalisti
+    - field.field.node.album.field_publisher
+    - field.field.node.album.field_year_published
+    - node.type.album
+  module:
+    - layout_builder
+    - user
+    - yearonly
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.album.default
+targetEntityType: node
+bundle: album
+mode: default
+content:
+  field_about:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_artist:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_cover:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_higlighted:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_lagalisti:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_publisher:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_year_published:
+    type: yearonly_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

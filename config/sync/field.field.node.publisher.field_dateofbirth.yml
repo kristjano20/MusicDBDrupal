@@ -1,0 +1,21 @@
+uuid: be73554d-39da-4062-8258-b1791a949038
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dateofbirth
+    - node.type.publisher
+  module:
+    - datetime
+id: node.publisher.field_dateofbirth
+field_name: field_dateofbirth
+entity_type: node
+bundle: publisher
+label: Stofndagur
+description: "Stofndagur útgefanda.\r\nEf einungis ártal er vitað þá skal skrá dagsetninguna sem 1. janúar.\r\nEf ártal og mánuður er vitað skal skrá dag sem 1. viðkomandi mánaðar."
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

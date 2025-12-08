@@ -1,0 +1,19 @@
+uuid: 84ce29c0-e39f-4162-b304-471a5743711f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_about
+    - media.type.image
+id: media.image.field_about
+field_name: field_about
+entity_type: media
+bundle: image
+label: Lýsing
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

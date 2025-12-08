@@ -1,0 +1,23 @@
+uuid: e60697c4-5c92-4d55-80ac-95ba34c89ee6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_year_published
+    - node.type.album
+  module:
+    - yearonly
+id: node.album.field_year_published
+field_name: field_year_published
+entity_type: node
+bundle: album
+label: Útgáfuár
+description: 'Árið þegar platan kom út.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  yearonly_from: '1900'
+  yearonly_to: now
+field_type: yearonly

@@ -1,0 +1,19 @@
+uuid: b0de6f34-8187-4e0f-a5ac-69066b13b8e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_about
+    - node.type.publisher
+id: node.publisher.field_about
+field_name: field_about
+entity_type: node
+bundle: publisher
+label: 'Um útgefanda'
+description: 'Valfrjáls texti um útgefanda.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

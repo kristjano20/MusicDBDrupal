@@ -1,0 +1,19 @@
+uuid: 4b66b2cb-0848-463b-9b94-737790cf77cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_about
+    - node.type.album
+id: node.album.field_about
+field_name: field_about
+entity_type: node
+bundle: album
+label: 'Um plötu'
+description: 'Valfrjáls texti um plötu.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,21 @@
+uuid: 0d039ab7-b98c-4fbb-96df-7b0b6227c6c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_duration
+    - node.type.song
+  module:
+    - hms_field
+id: node.song.field_duration
+field_name: field_duration
+entity_type: node
+bundle: song
+label: Lengd
+description: 'Lengd lags.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: hms

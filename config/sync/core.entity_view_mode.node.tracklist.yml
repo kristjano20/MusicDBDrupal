@@ -1,0 +1,11 @@
+uuid: 00ba02e8-a642-4ada-9acc-fce2f723f676
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.tracklist
+label: Lagalisti
+description: null
+targetEntityType: node
+cache: true

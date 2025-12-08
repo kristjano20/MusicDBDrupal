@@ -1,0 +1,23 @@
+uuid: cb72c5e2-35b6-4dd1-b4cf-7bdb25f3630e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hljomsveit
+    - node.type.artist
+id: node.artist.field_hljomsveit
+field_name: field_hljomsveit
+entity_type: node
+bundle: artist
+label: Listamaður/Hljómsveit
+description: 'Segir til um hvort að flytjandinn sé einstaklingur eða hljómsveit.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Hljómsveit
+  off_label: Listamaður
+field_type: boolean

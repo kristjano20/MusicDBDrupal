@@ -1,0 +1,209 @@
+uuid: e76f6740-fef4-4a3e-af02-3e700158b2d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.album.field_about
+    - field.field.node.album.field_artist
+    - field.field.node.album.field_cover
+    - field.field.node.album.field_higlighted
+    - field.field.node.album.field_lagalisti
+    - field.field.node.album.field_publisher
+    - field.field.node.album.field_year_published
+    - node.type.album
+  module:
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'Cover and info'
+          context_mapping: {  }
+          column_widths: 50-50
+        components:
+          f4e14d08-91a9-40da-81ec-00ad5cdca51b:
+            uuid: f4e14d08-91a9-40da-81ec-00ad5cdca51b
+            region: first
+            configuration:
+              id: 'field_block:node:album:field_cover'
+              label: Umslag
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: media_thumbnail
+                label: visually_hidden
+                settings:
+                  image_link: ''
+                  image_style: large
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          dfacc093-64d5-4809-965b-18cf06b72e11:
+            uuid: dfacc093-64d5-4809-965b-18cf06b72e11
+            region: second
+            configuration:
+              id: 'field_block:node:album:title'
+              label: Title
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: visually_hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          5cb15441-b129-4ce5-b0c3-bab916896144:
+            uuid: 5cb15441-b129-4ce5-b0c3-bab916896144
+            region: second
+            configuration:
+              id: 'field_block:node:album:field_year_published'
+              label: Útgáfuár
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: yearonly_default
+                label: inline
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          66bfe50d-be24-468c-b36e-7e8e104713fa:
+            uuid: 66bfe50d-be24-468c-b36e-7e8e104713fa
+            region: second
+            configuration:
+              id: 'field_block:node:album:field_artist'
+              label: Flytjandi
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          ebd5fd0c-6555-4597-802d-8ea79622627a:
+            uuid: ebd5fd0c-6555-4597-802d-8ea79622627a
+            region: second
+            configuration:
+              id: 'field_block:node:album:field_publisher'
+              label: Útgefandi
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: Lagalisti
+          context_mapping: {  }
+        components:
+          cdf8739f-2997-4257-a284-244850f7c128:
+            uuid: cdf8739f-2997-4257-a284-244850f7c128
+            region: content
+            configuration:
+              id: 'field_block:node:album:field_lagalisti'
+              label: Lagalisti
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: visually_hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          085f3cb0-1855-400f-8e79-2bcce9912dcb:
+            uuid: 085f3cb0-1855-400f-8e79-2bcce9912dcb
+            region: content
+            configuration:
+              id: 'field_block:node:album:field_about'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+        third_party_settings: {  }
+id: node.album.full
+targetEntityType: node
+bundle: album
+mode: full
+content:
+  field_about:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_artist:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_cover:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_higlighted: true
+  field_lagalisti: true
+  field_publisher: true
+  field_year_published: true
+  links: true

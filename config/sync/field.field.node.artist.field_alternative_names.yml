@@ -1,0 +1,19 @@
+uuid: 8658215e-0881-49d2-b7e5-cc78bd1c5a48
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alternative_names
+    - node.type.artist
+id: node.artist.field_alternative_names
+field_name: field_alternative_names
+entity_type: node
+bundle: artist
+label: 'Önnur nöfn'
+description: 'Ef að Flytjandinn hefur komið fram undir fleiri en einu nafni er hægt að bæta þeim við hér.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,15 @@
+uuid: 1fbdbc59-2a5d-4774-a920-18787e75dd39
+langcode: en
+status: true
+dependencies: {  }
+name: portrait
+label: 'Portrait (600x800)'
+effects:
+  f9fc1981-0fde-4ea0-a36b-b842486ec65e:
+    uuid: f9fc1981-0fde-4ea0-a36b-b842486ec65e
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 600
+      height: 800
+      anchor: center-center

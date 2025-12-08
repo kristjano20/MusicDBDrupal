@@ -1,0 +1,29 @@
+uuid: 8f939975-bd81-4474-a600-9a698c19459e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lagalisti
+    - node.type.album
+    - node.type.song
+id: node.album.field_lagalisti
+field_name: field_lagalisti
+entity_type: node
+bundle: album
+label: Lagalisti
+description: 'Listi af öllum lögum á ákveðinni plötu'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      song: song
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: artist
+field_type: entity_reference

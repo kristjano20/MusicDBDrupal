@@ -1,0 +1,361 @@
+uuid: 2ef560af-cda1-48d4-9580-82582b6546de
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.artist.field_about
+    - field.field.node.artist.field_alternative_names
+    - field.field.node.artist.field_dateofbirth
+    - field.field.node.artist.field_dateofdeath
+    - field.field.node.artist.field_genres
+    - field.field.node.artist.field_hljomsveit
+    - field.field.node.artist.field_main_image
+    - field.field.node.artist.field_medlimir
+    - field.field.node.artist.field_other_images
+    - field.field.node.artist.field_website
+    - node.type.artist
+  module:
+    - datetime
+    - layout_builder
+    - layout_discovery
+    - link
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: image_and_name
+          context_mapping: {  }
+          column_widths: 50-50
+        components:
+          43686030-6897-4d6a-a811-9a0bf0d161f8:
+            uuid: 43686030-6897-4d6a-a811-9a0bf0d161f8
+            region: first
+            configuration:
+              id: 'field_block:node:artist:field_main_image'
+              label: Aðalmynd
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: media_thumbnail
+                label: visually_hidden
+                settings:
+                  image_link: ''
+                  image_style: portrait
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          6dacf8d5-0dd1-4a20-aeba-6bf7691e9e4e:
+            uuid: 6dacf8d5-0dd1-4a20-aeba-6bf7691e9e4e
+            region: second
+            configuration:
+              id: 'field_block:node:artist:title'
+              label: Flytjandi
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          179a5a31-25b8-4f51-bf9a-66a7f8a0a007:
+            uuid: 179a5a31-25b8-4f51-bf9a-66a7f8a0a007
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_alternative_names'
+              label: 'Önnur nöfn'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          7763e99f-2db6-4162-b430-feefcd51503d:
+            uuid: 7763e99f-2db6-4162-b430-feefcd51503d
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_medlimir'
+              label: Meðlimir
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          48e7e025-26d7-4a2a-803b-960f9dd7eb86:
+            uuid: 48e7e025-26d7-4a2a-803b-960f9dd7eb86
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_hljomsveit'
+              label: Listamaður/Hljómsveit
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: boolean
+                label: visually_hidden
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          8d73a38c-430c-423d-8ba9-adcf2aa1a826:
+            uuid: 8d73a38c-430c-423d-8ba9-adcf2aa1a826
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_website'
+              label: Vefsíða
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: link
+                label: visually_hidden
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: '0'
+                  target: '0'
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          e39a1614-ccc4-48fd-b92b-801cacfeeff5:
+            uuid: e39a1614-ccc4-48fd-b92b-801cacfeeff5
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_genres'
+              label: Tónlistarstefnur
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: visually_hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: Dagsetningar
+          context_mapping: {  }
+          column_widths: 50-50
+        components:
+          803403e7-027a-4884-884c-d385292e14b5:
+            uuid: 803403e7-027a-4884-884c-d385292e14b5
+            region: first
+            configuration:
+              id: 'field_block:node:artist:field_dateofbirth'
+              label: 'Fæðingardagur (Stofndagur)'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: olivero_medium
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          7c6c2dc0-1dbc-441b-822c-0916c0fecde5:
+            uuid: 7c6c2dc0-1dbc-441b-822c-0916c0fecde5
+            region: second
+            configuration:
+              id: 'field_block:node:artist:field_dateofdeath'
+              label: 'Dánardagur (hljómsveit hættir)'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: datetime_default
+                label: above
+                settings:
+                  timezone_override: ''
+                  format_type: olivero_medium
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          bb9a6e66-b6df-4e8f-ab15-1e3683358a6b:
+            uuid: bb9a6e66-b6df-4e8f-ab15-1e3683358a6b
+            region: content
+            configuration:
+              id: 'field_block:node:artist:field_about'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: basic_string
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          ab42332f-9dd2-491b-befd-ffc7fb3a3a71:
+            uuid: ab42332f-9dd2-491b-befd-ffc7fb3a3a71
+            region: content
+            configuration:
+              id: 'field_block:node:artist:field_other_images'
+              label: 'Aðrar myndir'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: media_thumbnail
+                label: visually_hidden
+                settings:
+                  image_link: ''
+                  image_style: portrait
+                  image_loading:
+                    attribute: lazy
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+        third_party_settings: {  }
+id: node.artist.full
+targetEntityType: node
+bundle: artist
+mode: full
+content:
+  field_about:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_alternative_names:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_dateofbirth:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_dateofdeath:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_hljomsveit:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_main_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_medlimir:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_other_images:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

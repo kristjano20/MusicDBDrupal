@@ -1,0 +1,28 @@
+uuid: 7e2943a7-6b8a-450e-bd2a-defce078a6f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_medlimir
+    - node.type.artist
+id: node.artist.field_medlimir
+field_name: field_medlimir
+entity_type: node
+bundle: artist
+label: Meðlimir
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      artist: artist
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,14 @@
+uuid: d3afe83b-fb40-4422-9fd1-27d8ac9b5c80
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.content_creator
+  module:
+    - user
+id: user_remove_role_action.content_creator
+label: 'Remove the Skrásetjari role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: content_creator

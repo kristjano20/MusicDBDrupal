@@ -1,0 +1,19 @@
+uuid: f2a2e8c0-9425-4f6a-812f-005084fdcf15
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_publisher
+field_name: field_publisher
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

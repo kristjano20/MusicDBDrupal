@@ -1,0 +1,57 @@
+uuid: 20843e11-2f45-4182-a348-52bf19cd62b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+    - media.type.video
+    - node.type.advertisment
+    - node.type.album
+    - node.type.artist
+    - node.type.publisher
+    - node.type.song
+  module:
+    - media
+    - node
+id: content_creator
+label: Skrásetjari
+weight: 4
+is_admin: false
+permissions:
+  - 'access content overview'
+  - 'access media overview'
+  - 'create advertisment content'
+  - 'create album content'
+  - 'create artist content'
+  - 'create image media'
+  - 'create media'
+  - 'create publisher content'
+  - 'create song content'
+  - 'delete advertisment revisions'
+  - 'delete album revisions'
+  - 'delete artist revisions'
+  - 'delete own advertisment content'
+  - 'delete own album content'
+  - 'delete own artist content'
+  - 'delete own publisher content'
+  - 'delete own song content'
+  - 'delete own video media'
+  - 'delete publisher revisions'
+  - 'delete song revisions'
+  - 'edit own advertisment content'
+  - 'edit own album content'
+  - 'edit own artist content'
+  - 'edit own image media'
+  - 'edit own publisher content'
+  - 'edit own song content'
+  - 'revert advertisment revisions'
+  - 'revert album revisions'
+  - 'revert artist revisions'
+  - 'revert publisher revisions'
+  - 'revert song revisions'
+  - 'view advertisment revisions'
+  - 'view album revisions'
+  - 'view artist revisions'
+  - 'view own unpublished content'
+  - 'view publisher revisions'
+  - 'view song revisions'

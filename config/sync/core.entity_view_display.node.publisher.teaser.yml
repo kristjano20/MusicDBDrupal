@@ -1,0 +1,75 @@
+uuid: 62c572b9-9b2d-494b-b724-1f8a1ce56eb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.publisher.field_about
+    - field.field.node.publisher.field_dateofbirth
+    - field.field.node.publisher.field_dateofdeath
+    - field.field.node.publisher.field_logo
+    - field.field.node.publisher.field_other_images
+    - field.field.node.publisher.field_website
+    - node.type.publisher
+  module:
+    - datetime
+    - link
+    - user
+id: node.publisher.teaser
+targetEntityType: node
+bundle: publisher
+mode: teaser
+content:
+  field_about:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_dateofbirth:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_dateofdeath:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_other_images:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_logo: true

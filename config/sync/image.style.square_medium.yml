@@ -1,0 +1,15 @@
+uuid: dcfc7892-bdd5-48bf-a913-ab68db6f27b2
+langcode: en
+status: true
+dependencies: {  }
+name: square_medium
+label: 'Square-medium (320x320)'
+effects:
+  31beeeb5-1c13-4fdb-9f40-9f28e97c0019:
+    uuid: 31beeeb5-1c13-4fdb-9f40-9f28e97c0019
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 320
+      height: 320
+      anchor: center-center

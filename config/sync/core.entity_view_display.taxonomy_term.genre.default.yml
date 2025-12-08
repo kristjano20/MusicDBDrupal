@@ -1,0 +1,28 @@
+uuid: 200baaf2-0dda-4195-8c1b-3b400cb2b603
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.genre
+  module:
+    - layout_builder
+    - layout_discovery
+    - text
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: taxonomy_term.genre.default
+targetEntityType: taxonomy_term
+bundle: genre
+mode: default
+content:
+  description:
+    type: text_trimmed
+    label: hidden
+    settings:
+      trim_length: 200
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

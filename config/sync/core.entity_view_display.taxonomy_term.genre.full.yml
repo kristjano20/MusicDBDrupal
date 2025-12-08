@@ -1,0 +1,28 @@
+uuid: 50f90efb-ff34-4edd-a6a9-07b084fc78f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.taxonomy_term.full
+    - taxonomy.vocabulary.genre
+  module:
+    - layout_builder
+    - text
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: taxonomy_term.genre.full
+targetEntityType: taxonomy_term
+bundle: genre
+mode: full
+content:
+  description:
+    type: text_trimmed
+    label: hidden
+    settings:
+      trim_length: 50
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

@@ -1,0 +1,113 @@
+uuid: 02851c77-fca8-4d1a-9fbd-b29bc3f0aaad
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+    - media.type.video
+    - node.type.advertisment
+    - node.type.album
+    - node.type.article
+    - node.type.artist
+    - node.type.page
+    - node.type.publisher
+    - node.type.song
+    - taxonomy.vocabulary.tags
+  module:
+    - block_content
+    - comment
+    - contextual
+    - field_ui
+    - file
+    - media
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+_core:
+  default_config_hash: e_wG1u7SrGaJbY2-Szgbgl-c8T3kdirU3uTNq2c_QJQ
+id: content_editor
+label: Ritstjóri
+weight: 2
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access media overview'
+  - 'access toolbar'
+  - 'administer block content'
+  - 'administer block_content display'
+  - 'administer content types'
+  - 'administer media'
+  - 'administer media types'
+  - 'administer node display'
+  - 'administer nodes'
+  - 'administer url aliases'
+  - 'bypass node access'
+  - 'create advertisment content'
+  - 'create album content'
+  - 'create article content'
+  - 'create artist content'
+  - 'create image media'
+  - 'create media'
+  - 'create page content'
+  - 'create publisher content'
+  - 'create song content'
+  - 'create terms in tags'
+  - 'create url aliases'
+  - 'delete advertisment revisions'
+  - 'delete album revisions'
+  - 'delete all revisions'
+  - 'delete any advertisment content'
+  - 'delete any album content'
+  - 'delete any artist content'
+  - 'delete any image media'
+  - 'delete any publisher content'
+  - 'delete any song content'
+  - 'delete article revisions'
+  - 'delete artist revisions'
+  - 'delete own advertisment content'
+  - 'delete own album content'
+  - 'delete own article content'
+  - 'delete own artist content'
+  - 'delete own files'
+  - 'delete own page content'
+  - 'delete own publisher content'
+  - 'delete own song content'
+  - 'delete own video media'
+  - 'delete page revisions'
+  - 'delete publisher revisions'
+  - 'delete song revisions'
+  - 'edit any advertisment content'
+  - 'edit any album content'
+  - 'edit any artist content'
+  - 'edit any image media'
+  - 'edit any publisher content'
+  - 'edit any song content'
+  - 'edit own advertisment content'
+  - 'edit own album content'
+  - 'edit own article content'
+  - 'edit own artist content'
+  - 'edit own comments'
+  - 'edit own image media'
+  - 'edit own page content'
+  - 'edit own publisher content'
+  - 'edit own song content'
+  - 'edit terms in tags'
+  - 'revert advertisment revisions'
+  - 'revert album revisions'
+  - 'revert all revisions'
+  - 'revert artist revisions'
+  - 'revert publisher revisions'
+  - 'revert song revisions'
+  - 'view advertisment revisions'
+  - 'view album revisions'
+  - 'view all revisions'
+  - 'view artist revisions'
+  - 'view own unpublished content'
+  - 'view publisher revisions'
+  - 'view song revisions'
+  - 'view the administration theme'

@@ -1,0 +1,106 @@
+uuid: 958935ec-96e3-4a0c-a809-1b4695747a31
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.tracklist
+    - field.field.node.song.field_duration
+    - field.field.node.song.field_spotify_id
+    - node.type.song
+  module:
+    - hms_field
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_threecol_section
+        layout_settings:
+          label: 'track no. title and duration'
+          context_mapping: {  }
+          column_widths: 25-50-25
+        components:
+          61f459d5-76ee-424f-adbb-b41803384ed9:
+            uuid: 61f459d5-76ee-424f-adbb-b41803384ed9
+            region: second
+            configuration:
+              id: 'field_block:node:song:title'
+              label: Title
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: visually_hidden
+                settings:
+                  link_to_entity: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          402a4254-57a6-40f3-a07b-3709eaa5b388:
+            uuid: 402a4254-57a6-40f3-a07b-3709eaa5b388
+            region: third
+            configuration:
+              id: 'field_block:node:song:field_duration'
+              label: Lengd
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: hms_default_formatter
+                label: visually_hidden
+                settings:
+                  format: 'm:ss'
+                  leading_zero: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          06dfdda1-46cb-4f20-8c78-b69e09a9c803:
+            uuid: 06dfdda1-46cb-4f20-8c78-b69e09a9c803
+            region: content
+            configuration:
+              id: 'field_block:node:song:field_duration'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: hms_default_formatter
+                label: above
+                settings:
+                  format: 'h:mm'
+                  leading_zero: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
+id: node.song.tracklist
+targetEntityType: node
+bundle: song
+mode: tracklist
+content:
+  field_duration:
+    type: hms_default_formatter
+    label: above
+    settings:
+      format: 'h:mm'
+      leading_zero: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_spotify_id: true
+  links: true

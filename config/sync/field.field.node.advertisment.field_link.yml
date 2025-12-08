@@ -1,0 +1,23 @@
+uuid: 4e1d3005-fba2-476f-873c-2afde58d7ab4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link
+    - node.type.advertisment
+  module:
+    - link
+id: node.advertisment.field_link
+field_name: field_link
+entity_type: node
+bundle: advertisment
+label: Hlekkur
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

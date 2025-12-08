@@ -1,0 +1,18 @@
+uuid: 7292d847-ef4d-4940-a936-94421da663ab
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Útgefandi
+type: publisher
+description: 'Upplýsingar um útgefanda.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

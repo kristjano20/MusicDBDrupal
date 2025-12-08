@@ -1,0 +1,15 @@
+uuid: 520f78e3-571b-416c-83b4-9c1c9e7e3ed3
+langcode: en
+status: true
+dependencies: {  }
+name: square_large
+label: 'Square-large (480x480)'
+effects:
+  d2d294b1-9f8a-4c02-86f5-35d4ff963e57:
+    uuid: d2d294b1-9f8a-4c02-86f5-35d4ff963e57
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 480
+      height: 480
+      anchor: center-center

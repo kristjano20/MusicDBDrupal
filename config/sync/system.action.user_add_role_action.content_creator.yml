@@ -1,0 +1,14 @@
+uuid: c49f2df1-7d2f-47f4-9dd5-7b34c4134056
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.content_creator
+  module:
+    - user
+id: user_add_role_action.content_creator
+label: 'Add the Skrásetjari role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: content_creator

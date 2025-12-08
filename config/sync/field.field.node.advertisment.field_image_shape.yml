@@ -1,0 +1,23 @@
+uuid: cf3f0421-5ee9-4964-95c6-12cd9cfbb14f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_image_shape
+    - node.type.advertisment
+  module:
+    - options
+id: node.advertisment.field_image_shape
+field_name: field_image_shape
+entity_type: node
+bundle: advertisment
+label: Lögun
+description: 'Hér er hægt að skilgreina hver lögun myndarinnar er.'
+required: false
+translatable: false
+default_value:
+  -
+    value: baner_wide
+default_value_callback: ''
+settings: {  }
+field_type: list_string

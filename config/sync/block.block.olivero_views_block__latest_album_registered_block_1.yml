@@ -1,0 +1,41 @@
+uuid: f4a4f4c2-303b-43d9-a9fb-a13f33186710
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.latest_album_registered
+  module:
+    - system
+    - user
+    - views
+  theme:
+    - olivero
+id: olivero_views_block__latest_album_registered_block_1
+theme: olivero
+region: sidebar
+weight: -6
+provider: null
+plugin: 'views_block:latest_album_registered-block_1'
+settings:
+  id: 'views_block:latest_album_registered-block_1'
+  label: 'Nýjasta platan í kerfinu'
+  label_display: visible
+  provider: views
+  views_label: 'Nýjasta platan í kerfinu'
+  items_per_page: null
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+      authenticated: authenticated
+      content_editor: content_editor
+      administrator: administrator
+      content_creator: content_creator

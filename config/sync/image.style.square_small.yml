@@ -1,0 +1,15 @@
+uuid: 56fd8d1d-7ba7-4941-af44-02d13e131246
+langcode: en
+status: true
+dependencies: {  }
+name: square_small
+label: 'Square-small (220x220)'
+effects:
+  86460624-6d48-4094-892a-5d029e96ee1d:
+    uuid: 86460624-6d48-4094-892a-5d029e96ee1d
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 220
+      height: 220
+      anchor: center-center
