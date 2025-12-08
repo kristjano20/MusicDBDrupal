@@ -1,0 +1,7 @@
+services:
+  spotify_lookup.search:
+    class: Drupal\spotify_lookup\SpotifyLookupService
+    arguments:
+      - '@http_client'
+      - '@config.factory'
+    public: true
