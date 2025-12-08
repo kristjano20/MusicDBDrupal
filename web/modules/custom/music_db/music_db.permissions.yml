@@ -1,0 +1,12 @@
+administer music db:
+  title: 'Administer music db entities'
+
+# Artist permissions
+view artist:
+  title: 'View Artists'
+add artist:
+  title: 'Add Artists'
+edit artist:
+  title: 'Edit Artists'
+delete artist:
+  title: 'Delete Artists'

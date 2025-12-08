@@ -1,0 +1,31 @@
+entity.artist.collection:
+  path: '/admin/content/artists'
+  defaults:
+    _entity_list: 'artist'
+    _title: 'Artists'
+  requirements:
+    _permission: 'view artist'
+
+entity.artist.add:
+  path: '/artist/add'
+  defaults:
+    _entity_form: 'artist.add'
+    _title: 'Add Artist'
+  requirements:
+    _permission: 'add artist'
+
+entity.artist.edit:
+  path: '/artist/{artist}/edit'
+  defaults:
+    _entity_form: 'artist.edit'
+    _title: 'Edit Artist'
+  requirements:
+    _permission: 'edit artist'
+
+entity.artist.delete:
+  path: '/artist/{artist}/delete'
+  defaults:
+    _entity_form: 'artist.delete'
+    _title: 'Delete Artist'
+  requirements:
+    _permission: 'delete artist'
