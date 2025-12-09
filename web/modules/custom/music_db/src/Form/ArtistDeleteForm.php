@@ -1,8 +1,9 @@
 <?php
 
-namespace Drupal\Core\music_db\Form;
+namespace Drupal\music_db\Form;
 
-class ArtistDeleteForm
-{
+use Drupal\Core\Entity\ContentEntityDeleteForm;
+
+class ArtistDeleteForm extends ContentEntityDeleteForm {
 
 }

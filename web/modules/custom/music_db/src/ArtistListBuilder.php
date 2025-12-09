@@ -1,8 +1,20 @@
 <?php
 
-namespace Drupal\Core\music_db;
+namespace Drupal\music_db;
 
-class ArtistListBuilder
-{
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityListBuilder;
+
+class ArtistListBuilder extends EntityListBuilder {
+
+  public function buildHeader() {
+    $header['name'] = $this->t('Artist');
+    return $header + parent::buildHeader();
+  }
+
+  public function buildRow(EntityInterface $entity) {
+    $row['name'] = $entity->label();
+    return $row + parent::buildRow($entity);
+  }
 
 }

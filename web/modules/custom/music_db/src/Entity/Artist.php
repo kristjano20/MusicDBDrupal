@@ -7,10 +7,10 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\Core\music_db\ArtistAccessControlHandler;
-use Drupal\Core\music_db\ArtistListBuilder;
-use Drupal\Core\music_db\Form\ArtistDeleteForm;
-use Drupal\Core\music_db\Form\ArtistForm;
+use Drupal\music_db\ArtistAccessControlHandler;
+use Drupal\music_db\ArtistListBuilder;
+use Drupal\music_db\Form\ArtistDeleteForm;
+use Drupal\music_db\Form\ArtistForm;
 
 #[ContentEntityType(
   id: 'artist',
