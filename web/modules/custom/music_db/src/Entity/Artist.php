@@ -39,9 +39,9 @@ use Drupal\music_db\Form\ArtistForm;
 
   links: [
     'canonical' => '/artist/{artist}',
-    'add-form' => '/artist/add',
-    'edit-form' => '/artist/{artist}/edit',
-    'delete-form' => '/artist/{artist}/delete',
+    'add' => '/artist/add',
+    'edit' => '/artist/{artist}/edit',
+    'delete' => '/artist/{artist}/delete',
     'collection' => '/admin/content/artists',
   ]
 )]
