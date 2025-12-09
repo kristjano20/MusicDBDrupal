@@ -1,0 +1,7 @@
+spotify_lookup.settings:
+  path: '/admin/config/services/spotify'
+  defaults:
+    _form: '\Drupal\spotify_lookup\Form\SpotifySettingsForm'
+    _title: 'Spotify API module settings'
+  requirements:
+    _permission: 'administer site configuration'
