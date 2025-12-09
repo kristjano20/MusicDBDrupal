@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\musicsearch\Controller;
+namespace Drupal\music_db\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\spotify_lookup\SpotifyLookupService;
@@ -56,7 +56,7 @@ class SpotifyArtistAutocompleteController extends ControllerBase {
       }
     }
     catch (\Throwable $e) {
-      $this->getLogger('musicsearch')->error('Spotify autocomplete failed: @message', [
+      $this->getLogger('music_db')->error('Spotify autocomplete failed: @message', [
         '@message' => $e->getMessage(),
       ]);
     }

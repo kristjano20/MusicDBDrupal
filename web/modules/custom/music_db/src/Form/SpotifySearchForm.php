@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\musicsearch\Form;
+namespace Drupal\music_db\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -28,7 +28,7 @@ class SpotifySearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId(): string {
-    return 'musicsearch_spotify_search_form';
+    return 'music_db_spotify_search_form';
   }
 
   /**
@@ -89,3 +89,4 @@ class SpotifySearchForm extends FormBase {
   }
 
 }
+

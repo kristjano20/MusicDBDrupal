@@ -5,7 +5,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Adds Spotify autocomplete to artist title field.
  */
-function musicsearch_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+function music_db_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   $node = $form_state->getFormObject()->getEntity();
   if ($node->bundle() !== 'artist') {
     return;
@@ -16,7 +16,7 @@ function musicsearch_form_node_form_alter(array &$form, FormStateInterface $form
   }
 
   $title_element = &$form['title']['widget'][0]['value'];
-  $title_element['#autocomplete_route_name'] = 'musicsearch.spotify_artist_autocomplete';
+  $title_element['#autocomplete_route_name'] = 'music_db.spotify_artist_autocomplete';
   $title_element['#autocomplete_route_parameters'] = [];
   $title_element['#description'] = t('Start typing to search Spotify and pick the correct artist.');
 }
