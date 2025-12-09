@@ -3,3 +3,5 @@ type: module
 description: Provides a way to store music metadata and retrieve it from api's.
 package: Custom
 core_version_requirement: ^11
+dependencies:
+  - spotify_lookup

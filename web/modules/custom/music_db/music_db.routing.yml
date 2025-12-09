@@ -1,31 +1,50 @@
 entity.artist.collection:
-  path: '/admin/content/artists'
+  path: "/admin/content/artists"
   defaults:
-    _entity_list: 'artist'
-    _title: 'Artists'
+    _entity_list: "artist"
+    _title: "Artists"
   requirements:
-    _permission: 'view artist'
+    _permission: "view artist"
 
 entity.artist.add:
-  path: '/artist/add'
+  path: "/artist/add"
   defaults:
-    _entity_form: 'artist.add'
-    _title: 'Add Artist'
+    _entity_form: "artist.add"
+    _title: "Add Artist"
   requirements:
-    _permission: 'add artist'
+    _permission: "add artist"
 
 entity.artist.edit:
-  path: '/artist/{artist}/edit'
+  path: "/artist/{artist}/edit"
   defaults:
-    _entity_form: 'artist.edit'
-    _title: 'Edit Artist'
+    _entity_form: "artist.edit"
+    _title: "Edit Artist"
   requirements:
-    _permission: 'edit artist'
+    _permission: "edit artist"
 
 entity.artist.delete:
-  path: '/artist/{artist}/delete'
+  path: "/artist/{artist}/delete"
   defaults:
-    _entity_form: 'artist.delete'
-    _title: 'Delete Artist'
+    _entity_form: "artist.delete"
+    _title: "Delete Artist"
   requirements:
-    _permission: 'delete artist'
+    _permission: "delete artist"
+
+music_db.spotify_search_form:
+  path: "/admin/music-search/spotify"
+  defaults:
+    _form: '\Drupal\music_db\Form\SpotifySearchForm'
+    _title: "Spotify search"
+  requirements:
+    _permission: "access administration pages"
+
+music_db.spotify_artist_autocomplete:
+  path: "/music_db/autocomplete/spotify/artist"
+  defaults:
+    _controller: '\Drupal\music_db\Controller\SpotifyArtistAutocompleteController::handleAutocomplete'
+    _format: "json"
+  requirements:
+    _permission: "access content"
+  options:
+    _auth:
+      - "cookie"
