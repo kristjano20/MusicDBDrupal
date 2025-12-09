@@ -1,0 +1,6 @@
+spotify_lookup.settings:
+  title: 'Spotify API module settings'
+  description: 'Configure Spotify API URI, caching and credentials.'
+  route_name: spotify_lookup.settings
+  parent: system.admin_config_services
+  weight: 0

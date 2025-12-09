@@ -2,6 +2,7 @@
 
 namespace Drupal\spotify_lookup;
 
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -9,16 +10,26 @@ use GuzzleHttp\Exception\GuzzleException;
 class SpotifyLookupService {
   protected ClientInterface $httpClient;
   protected ConfigFactoryInterface $configFactory;
+
+  protected Config $config;
+
   protected ?string $accessToken = NULL;
   public function __construct(ClientInterface $http_client, protected ConfigFactoryInterface $config_factory) {
     $this->httpClient = $http_client;
     $this->configFactory = $config_factory;
+    $this->config = $this->configFactory->get('spotify_lookup.settings');
+
   }
-  public function search(string $query, string $type = 'track', int $limit = 5): array {
+
+
+  public function search(string $query, string $type = 'track', ?int $limit = NULL): array {
     $token = $this->getAccessToken();
 
+    $baseUrl = $this->config->get('api_uri') ?: 'https://api.spotify.com/v1';
+    $limit ??= (int) ($this->config->get('max_hits') ?? 20);
+
     $response = $this->httpClient->get(
-      'https://api.spotify.com/v1/search',
+      $baseUrl . '/search',
       [
         'headers' => [
           'Authorization' => 'Bearer ' . $token,
@@ -40,10 +51,8 @@ class SpotifyLookupService {
       return $this->accessToken;
     }
 
-    $config = $this->configFactory->get('spotify_lookup.settings');
-
-    $clientId = $config->get('client_id');
-    $clientSecret = $config->get('client_secret');
+    $clientId = $this->config->get('client_id');
+    $clientSecret = $this->config->get('client_secret');
 
     $response = $this->httpClient->post(
       'https://accounts.spotify.com/api/token',
