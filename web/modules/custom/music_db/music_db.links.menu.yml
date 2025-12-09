@@ -1,0 +1,5 @@
+music_db.artists:
+  title: 'Artists'
+  route_name: entity.artist.collection
+  parent: system.admin_content
+

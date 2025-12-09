@@ -1,0 +1,6 @@
+artist.add:
+  route_name: entity.artist.add
+  title: 'Add Artist'
+  appears_on:
+    - entity.artist.collection
+
