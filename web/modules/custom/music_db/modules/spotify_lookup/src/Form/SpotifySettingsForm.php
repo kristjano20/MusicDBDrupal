@@ -96,8 +96,8 @@ class SpotifySettingsForm extends ConfigFormBase {
       ->set('api_uri', $form_state->getValue('api_uri'))
       ->set('cache_lifetime', (int) $form_state->getValue('cache_lifetime'))
       ->set('max_hits', (int) $form_state->getValue('max_hits'))
-      ->set('client_id', $form_state->getValue(['client', 'client_id']))
-      ->set('client_secret', $form_state->getValue(['client', 'client_secret']))
+      ->set('client_id', $form_state->getValue('client_id'))
+      ->set('client_secret', $form_state->getValue('client_secret'))
       ->save();
 
     parent::submitForm($form, $form_state);
