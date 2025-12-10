@@ -17,6 +17,22 @@ edit artist:
 delete artist:
   title: 'Delete Artists'
 
+# Album permissions
+administer album entities:
+  title: 'Administer album entities'
+  description: 'Create, edit and delete album entities.'
+  restrict access: true
+
+
+view album:
+  title: 'View Albums'
+add album:
+  title: 'Add Albums'
+edit album:
+  title: 'Edit Albums'
+delete album:
+  title: 'Delete Albums'
+
 # Song Permissions
 administer song entities:
   title: 'Administer song entities'

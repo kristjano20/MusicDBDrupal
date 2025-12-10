@@ -3,3 +3,7 @@ music_db.artists:
   route_name: entity.artist.collection
   parent: system.admin_content
 
+music_db.albums:
+  title: 'Albums'
+  route_name: entity.album.collection
+  parent: system.admin_content
