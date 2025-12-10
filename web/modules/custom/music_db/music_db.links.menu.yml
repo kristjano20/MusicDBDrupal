@@ -1,9 +1,89 @@
-music_db.artists:
-  title: 'Artists'
+# ----------------------------------------------------------
+# MAIN MUSIC DATABASE MENU SECTION
+# ----------------------------------------------------------
+music_db.admin:
+  title: 'Music Database'
+  description: 'Manage artists, albums, and songs'
   route_name: entity.artist.collection
-  parent: system.admin_content
+  parent: system.admin
+  weight: -100
 
-music_db.albums:
+# ================================
+# ARTISTS
+# ================================
+music_db.admin.artists:
+  title: 'Artists'
+  description: 'Manage Artists'
+  route_name: entity.artist.collection
+  parent: music_db.admin
+  weight: 0
+
+music_db.admin.add_artist:
+  title: '➕ Add Artist'
+  description: 'Create a new Artist'
+  route_name: entity.artist.add_form
+  parent: music_db.admin.artists
+  weight: 1
+
+# ================================
+# ALBUMS
+# ================================
+music_db.admin.albums:
   title: 'Albums'
+  description: 'Manage Albums'
   route_name: entity.album.collection
-  parent: system.admin_content
+  parent: music_db.admin
+  weight: 10
+
+music_db.admin.add_album:
+  title: '➕ Add Album'
+  description: 'Create a new Album'
+  route_name: entity.album.add_form
+  parent: music_db.admin.albums
+  weight: 11
+
+# ================================
+# SONGS
+# ================================
+music_db.admin.songs:
+  title: 'Songs'
+  description: 'Manage Songs'
+  route_name: entity.song.collection
+  parent: music_db.admin
+  weight: 20
+
+music_db.admin.add_song:
+  title: '➕ Add Song'
+  description: 'Create a new Song'
+  route_name: entity.song.add_form
+  parent: music_db.admin.songs
+  weight: 21
+
+
+# ----------------------------------------------------------
+# QUICK ADD MENU (system.admin_content_add)
+# This adds Artist/Album/Song to:
+#   - Gin Quick Add ("+" floating button)
+#   - Admin Toolbar Add menu
+#   - /admin/content/add
+# ----------------------------------------------------------
+music_db.quick_add.artist:
+  title: 'Artist'
+  description: 'Create a new Artist'
+  route_name: entity.artist.add_form
+  parent: system.admin_content_add
+  weight: 5
+
+music_db.quick_add.album:
+  title: 'Album'
+  description: 'Create a new Album'
+  route_name: entity.album.add_form
+  parent: system.admin_content_add
+  weight: 6
+
+music_db.quick_add.song:
+  title: 'Song'
+  description: 'Create a new Song'
+  route_name: entity.song.add_form
+  parent: system.admin_content_add
+  weight: 7

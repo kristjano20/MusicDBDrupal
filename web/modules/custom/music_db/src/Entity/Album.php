@@ -20,7 +20,7 @@ use Drupal\music_db\Form\AlbumForm;
     'id' => 'id',
     'uuid' => 'uuid',
     'label' => 'title',
-    'revision' => 'revision_id',
+    # 'revision' => 'revision_id',
   ],
 
   handlers: [
@@ -44,7 +44,7 @@ use Drupal\music_db\Form\AlbumForm;
 
   base_table: 'album',
 
-  revision_table: 'album_revision',
+  # revision_table: 'album_revision',
 )]
 class Album extends ContentEntityBase {
 
@@ -182,9 +182,11 @@ class Album extends ContentEntityBase {
     $fields['created'] = BaseFieldDefinition::create('created');
     $fields['changed'] = BaseFieldDefinition::create('changed');
 
+    /*
     $fields['revision_id'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Revision ID'))
       ->setReadOnly(TRUE);
+    */
 
     return $fields;
   }

@@ -21,7 +21,7 @@ use Drupal\views\EntityViewsData;
     'id' => 'id',
     'uuid' => 'uuid',
     'label' => 'name',
-    'revision' => 'revision_id',
+    # 'revision' => 'revision_id',
   ],
 
   handlers: [
@@ -46,7 +46,7 @@ use Drupal\views\EntityViewsData;
 
   base_table: 'artist',
 
-  revision_table: 'artist_revision'
+  # revision_table: 'artist_revision'
 )]
 class Artist extends ContentEntityBase {
 
