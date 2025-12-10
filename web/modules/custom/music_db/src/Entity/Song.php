@@ -1,0 +1,121 @@
+<?php
+
+namespace Drupal\music_db\Entity;
+
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\music_db\SongAccessControlHandler;
+use Drupal\music_db\SongListBuilder;
+use Drupal\music_db\Form\SongDeleteForm;
+use Drupal\music_db\Form\SongForm;
+
+#[ContentEntityType(
+  id: 'song',
+  label: new TranslatableMarkup('Song'),
+
+  handlers: [
+    'access' => SongAccessControlHandler::class,
+    'list_builder' => SongListBuilder::class,
+    'form' => [
+      'add' => SongForm::class,
+      'edit' => SongForm::class,
+      'delete' => SongDeleteForm::class,
+    ],
+  ],
+
+  base_table: 'song',
+  revision_table: 'song_revision',
+  admin_permission: 'administer song entities',
+
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'label' => 'title',
+    'revision' => 'revision_id',
+  ],
+
+  links: [
+    'canonical' => '/song/{song}',
+    'add-form' => '/song/add',
+    'edit-form' => '/song/{song}/edit',
+    'delete-form' => '/song/{song}/delete',
+    'collection' => '/admin/content/songs',
+  ]
+)]
+class Song extends ContentEntityBase {
+
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+    $fields = parent::baseFieldDefinitions($entity_type);
+
+    // Title.
+    $fields['title'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Title'))
+      ->setRequired(TRUE)
+      ->setSettings(['max_length' => 255])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['duration'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Duration'))
+      ->setDescription(t('Song duration in mm:ss format (e.g. 03:45).'))
+      ->setSettings(['max_length' => 10])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 10,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['spotify_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Spotify ID'))
+      ->setSettings(['max_length' => 255])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 20,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 20,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['discogs_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Discogs ID'))
+      ->setSettings(['max_length' => 255])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 21,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 21,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['created'] = BaseFieldDefinition::create('created')
+      ->setLabel(t('Created'));
+
+    $fields['changed'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Changed'));
+
+    return $fields;
+  }
+
+}

@@ -4,3 +4,9 @@ artist.add:
   appears_on:
     - entity.artist.collection
 
+
+entity.song.add_form:
+  route_name: entity.song.add_form
+  title: 'Add Song'
+  appears_on:
+    - entity.song.collection

@@ -57,6 +57,47 @@ music_db.spotify_artist_autocomplete:
     _auth:
       - "cookie"
 
+
+#Song Routes
+entity.song.collection:
+  path: '/admin/content/songs'
+  defaults:
+    _entity_list: 'song'
+    _title: 'Songs'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.add_form:
+  path: '/song/add'
+  defaults:
+    _entity_form: 'song.add'
+    _title: 'Add song'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.edit_form:
+  path: '/song/{song}/edit'
+  defaults:
+    _entity_form: 'song.edit'
+    _title: 'Edit song'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.delete_form:
+  path: '/song/{song}/delete'
+  defaults:
+    _entity_form: 'song.delete'
+    _title: 'Delete song'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.canonical:
+  path: '/song/{song}'
+  defaults:
+    _entity_view: 'song'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _entity_access: 'song.view'
 music_db.discogs_artist_autocomplete:
   path: "/music_db/autocomplete/discogs/artist"
   defaults:
@@ -67,6 +108,11 @@ music_db.discogs_artist_autocomplete:
   options:
     _auth:
       - "cookie"
+
+
+
+
+
 
 music_db.artist_id_lookup:
   path: "/music_db/lookup/artist-id"
