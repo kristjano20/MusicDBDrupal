@@ -16,6 +16,13 @@ use Drupal\music_db\Form\SongForm;
   id: 'song',
   label: new TranslatableMarkup('Song'),
 
+  entity_keys: [
+    'id' => 'id',
+    'uuid' => 'uuid',
+    'label' => 'title',
+    'revision' => 'revision_id',
+  ],
+
   handlers: [
     'access' => SongAccessControlHandler::class,
     'list_builder' => SongListBuilder::class,
@@ -25,25 +32,18 @@ use Drupal\music_db\Form\SongForm;
       'delete' => SongDeleteForm::class,
     ],
   ],
-
-  base_table: 'song',
-  revision_table: 'song_revision',
-  admin_permission: 'administer song entities',
-
-  entity_keys: [
-    'id' => 'id',
-    'uuid' => 'uuid',
-    'label' => 'title',
-    'revision' => 'revision_id',
-  ],
-
   links: [
     'canonical' => '/song/{song}',
     'add-form' => '/song/add',
     'edit-form' => '/song/{song}/edit',
     'delete-form' => '/song/{song}/delete',
     'collection' => '/admin/content/songs',
-  ]
+  ],
+  admin_permission: 'administer song entities',
+
+  base_table: 'song',
+
+  revision_table: 'song_revision'
 )]
 class Song extends ContentEntityBase {
 

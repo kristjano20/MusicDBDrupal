@@ -1,12 +1,11 @@
-administer music db:
-  title: 'Administer music db entities'
-
+#----------------------------------------------------
 # Artist permissions
+#----------------------------------------------------
+
 administer artist entities:
   title: 'Administer artist entities'
   description: 'Create, edit and delete artist entities.'
   restrict access: true
-
 
 view artist:
   title: 'View Artists'
@@ -17,12 +16,14 @@ edit artist:
 delete artist:
   title: 'Delete Artists'
 
+#----------------------------------------------------
 # Album permissions
+#----------------------------------------------------
+
 administer album entities:
   title: 'Administer album entities'
   description: 'Create, edit and delete album entities.'
   restrict access: true
-
 
 view album:
   title: 'View Albums'
@@ -33,8 +34,20 @@ edit album:
 delete album:
   title: 'Delete Albums'
 
+#----------------------------------------------------
 # Song Permissions
+#----------------------------------------------------
+
 administer song entities:
   title: 'Administer song entities'
   description: 'Create, edit, delete and view Song entities.'
   restrict access: true
+
+view song:
+  title: 'View Songs'
+add song:
+  title: 'Add Songs'
+edit song:
+  title: 'Edit Songs'
+delete song:
+  title: 'Delete Songs'

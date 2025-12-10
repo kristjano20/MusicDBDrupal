@@ -32,7 +32,7 @@ entity.artist.add_page:
     _title: 'Add Artist'
     entity_type_id: 'artist'
   requirements:
-    _permission: 'administer music db'
+    _permission: 'add artist'
 
 
 entity.artist.edit_form:
@@ -86,8 +86,7 @@ entity.album.add_page:
     _title: 'Add album'
     entity_type_id: 'album'
   requirements:
-    _permission: 'administer music db'
-
+    _permission: 'add album'
 
 entity.album.edit_form:
   path: "/album/{album}/edit"
@@ -106,30 +105,9 @@ entity.album.delete_form:
     _permission: "delete album"
 
 #----------------------------------------------------
-# Spotify routes
+# Song routes
 #----------------------------------------------------
 
-music_db.spotify_search_form:
-  path: "/admin/music-search/spotify"
-  defaults:
-    _form: '\Drupal\music_db\Form\SpotifySearchForm'
-    _title: "Spotify search"
-  requirements:
-    _permission: "access administration pages"
-
-music_db.spotify_artist_autocomplete:
-  path: "/music_db/autocomplete/spotify/artist"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\SpotifyArtistAutocompleteController::handleAutocomplete'
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-
-#Song Routes
 entity.song.collection:
   path: '/admin/content/songs'
   defaults:
@@ -145,6 +123,15 @@ entity.song.add_form:
     _title: 'Add song'
   requirements:
     _permission: 'administer song entities'
+
+entity.song.add_page:
+  path: '/song/add-page'
+  defaults:
+    _controller: '\Drupal\Core\Entity\Controller\EntityController::addPage'
+    _title: 'Add song'
+    entity_type_id: 'song'
+  requirements:
+    _permission: 'add song'
 
 entity.song.edit_form:
   path: '/song/{song}/edit'
@@ -169,6 +156,34 @@ entity.song.canonical:
     _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
   requirements:
     _entity_access: 'song.view'
+
+#----------------------------------------------------
+# Spotify routes
+#----------------------------------------------------
+
+music_db.spotify_search_form:
+  path: "/admin/music-search/spotify"
+  defaults:
+    _form: '\Drupal\music_db\Form\SpotifySearchForm'
+    _title: "Spotify search"
+  requirements:
+    _permission: "access administration pages"
+
+music_db.spotify_artist_autocomplete:
+  path: "/music_db/autocomplete/spotify/artist"
+  defaults:
+    _controller: '\Drupal\music_db\Controller\SpotifyArtistAutocompleteController::handleAutocomplete'
+    _format: "json"
+  requirements:
+    _permission: "access content"
+  options:
+    _auth:
+      - "cookie"
+
+#----------------------------------------------------
+# Discogs routes
+#----------------------------------------------------
+
 music_db.discogs_artist_autocomplete:
   path: "/music_db/autocomplete/discogs/artist"
   defaults:
@@ -179,6 +194,10 @@ music_db.discogs_artist_autocomplete:
   options:
     _auth:
       - "cookie"
+
+#----------------------------------------------------
+# Lookup routes
+#----------------------------------------------------
 
 music_db.artist_id_lookup:
   path: "/music_db/lookup/artist-id"

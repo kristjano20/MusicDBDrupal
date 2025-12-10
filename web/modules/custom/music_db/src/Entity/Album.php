@@ -40,7 +40,7 @@ use Drupal\music_db\Form\AlbumForm;
     'delete-form' => '/album/{album}/delete',
     'collection' => '/admin/content/albums',
   ],
-  admin_permission: 'administer music db',
+  admin_permission: 'administer album entities',
 
   base_table: 'album',
 

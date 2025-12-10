@@ -42,7 +42,7 @@ use Drupal\views\EntityViewsData;
     'delete-form' => '/artist/{artist}/delete',
     'collection' => '/admin/content/artists',
   ],
-  admin_permission: 'administer music db',
+  admin_permission: 'administer artist entities',
 
   base_table: 'artist',
 
@@ -104,7 +104,7 @@ class Artist extends ContentEntityBase {
           'format_type' => 'html_date',
           'timezone_override' => '',
         ],
-        
+
       ])
       ->setDisplayConfigurable('view', TRUE)
     ;
