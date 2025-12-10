@@ -4,7 +4,15 @@ entity.artist.collection:
     _entity_list: "artist"
     _title: "Artists"
   requirements:
-    _permission: "view artist"
+    _permission: 'administer artist entities'
+
+entity.artist.canonical:
+  path: '/artist/{artist}'
+  defaults:
+    _entity_view: 'artist'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _permission: 'view artist'
 
 entity.artist.add:
   path: "/artist/add"
@@ -48,3 +56,31 @@ music_db.spotify_artist_autocomplete:
   options:
     _auth:
       - "cookie"
+
+
+
+#redundancy???
+
+entity.artist.add_form:
+  path: '/artist/add'
+  defaults:
+    _entity_form: 'artist.add'
+    _title: 'Add artist'
+  requirements:
+    _permission: 'administer artist entities'
+
+entity.artist.edit_form:
+  path: '/artist/{artist}/edit'
+  defaults:
+    _entity_form: 'artist.edit'
+    _title: 'Edit artist'
+  requirements:
+    _permission: 'administer artist entities'
+
+entity.artist.delete_form:
+  path: '/artist/{artist}/delete'
+  defaults:
+    _entity_form: 'artist.delete'
+    _title: 'Delete artist'
+  requirements:
+    _permission: 'administer artist entities'
