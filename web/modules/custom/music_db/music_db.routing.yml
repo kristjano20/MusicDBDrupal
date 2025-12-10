@@ -1,3 +1,6 @@
+#----------------------------------------------------
+# Artist routes
+#----------------------------------------------------
 entity.artist.collection:
   path: "/admin/content/artists"
   defaults:
@@ -14,7 +17,7 @@ entity.artist.canonical:
   requirements:
     _permission: 'view artist'
 
-entity.artist.add:
+entity.artist.add_form:
   path: "/artist/add"
   defaults:
     _entity_form: "artist.add"
@@ -22,7 +25,7 @@ entity.artist.add:
   requirements:
     _permission: "add artist"
 
-entity.artist.edit:
+entity.artist.edit_form:
   path: "/artist/{artist}/edit"
   defaults:
     _entity_form: "artist.edit"
@@ -30,13 +33,61 @@ entity.artist.edit:
   requirements:
     _permission: "edit artist"
 
-entity.artist.delete:
+entity.artist.delete_form:
   path: "/artist/{artist}/delete"
   defaults:
     _entity_form: "artist.delete"
     _title: "Delete Artist"
   requirements:
     _permission: "delete artist"
+
+#----------------------------------------------------
+# Album routes
+#----------------------------------------------------
+
+entity.album.collection:
+  path: "/admin/content/albums"
+  defaults:
+    _entity_list: "album"
+    _title: "Albums"
+  requirements:
+    _permission: 'administer album entities'
+
+entity.album.canonical:
+  path: '/album/{album}'
+  defaults:
+    _entity_view: 'album'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _permission: 'view album'
+
+entity.album.add_form:
+  path: "/album/add"
+  defaults:
+    _entity_form: "album.add"
+    _title: "Add Album"
+  requirements:
+    _permission: "add album"
+
+entity.album.edit_form:
+  path: "/album/{album}/edit"
+  defaults:
+    _entity_form: "album.edit"
+    _title: "Edit Album"
+  requirements:
+    _permission: "edit album"
+
+entity.album.delete_form:
+  path: "/album/{album}/delete"
+  defaults:
+    _entity_form: "album.delete"
+    _title: "Delete Album"
+  requirements:
+    _permission: "delete album"
+
+#----------------------------------------------------
+# Spotify routes
+#----------------------------------------------------
 
 music_db.spotify_search_form:
   path: "/admin/music-search/spotify"
@@ -56,31 +107,3 @@ music_db.spotify_artist_autocomplete:
   options:
     _auth:
       - "cookie"
-
-
-
-#redundancy???
-
-entity.artist.add_form:
-  path: '/artist/add'
-  defaults:
-    _entity_form: 'artist.add'
-    _title: 'Add artist'
-  requirements:
-    _permission: 'administer artist entities'
-
-entity.artist.edit_form:
-  path: '/artist/{artist}/edit'
-  defaults:
-    _entity_form: 'artist.edit'
-    _title: 'Edit artist'
-  requirements:
-    _permission: 'administer artist entities'
-
-entity.artist.delete_form:
-  path: '/artist/{artist}/delete'
-  defaults:
-    _entity_form: 'artist.delete'
-    _title: 'Delete artist'
-  requirements:
-    _permission: 'administer artist entities'
