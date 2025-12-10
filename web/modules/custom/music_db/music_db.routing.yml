@@ -4,15 +4,15 @@ entity.artist.collection:
     _entity_list: "artist"
     _title: "Artists"
   requirements:
-    _permission: 'administer artist entities'
+    _permission: "administer artist entities"
 
 entity.artist.canonical:
-  path: '/artist/{artist}'
+  path: "/artist/{artist}"
   defaults:
-    _entity_view: 'artist'
+    _entity_view: "artist"
     _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
   requirements:
-    _permission: 'view artist'
+    _permission: "view artist"
 
 entity.artist.add:
   path: "/artist/add"
@@ -57,30 +57,48 @@ music_db.spotify_artist_autocomplete:
     _auth:
       - "cookie"
 
+music_db.discogs_artist_autocomplete:
+  path: "/music_db/autocomplete/discogs/artist"
+  defaults:
+    _controller: '\Drupal\music_db\Controller\DiscogsArtistAutocompleteController::handleAutocomplete'
+    _format: "json"
+  requirements:
+    _permission: "access content"
+  options:
+    _auth:
+      - "cookie"
 
-
-#redundancy???
+music_db.artist_id_lookup:
+  path: "/music_db/lookup/artist-id"
+  defaults:
+    _controller: '\Drupal\music_db\Controller\ArtistIdLookupController::lookupId'
+    _format: "json"
+  requirements:
+    _permission: "access content"
+  options:
+    _auth:
+      - "cookie"
 
 entity.artist.add_form:
-  path: '/artist/add'
+  path: "/artist/add"
   defaults:
-    _entity_form: 'artist.add'
-    _title: 'Add artist'
+    _entity_form: "artist.add"
+    _title: "Add artist"
   requirements:
-    _permission: 'administer artist entities'
+    _permission: "add artist"
 
 entity.artist.edit_form:
-  path: '/artist/{artist}/edit'
+  path: "/artist/{artist}/edit"
   defaults:
-    _entity_form: 'artist.edit'
-    _title: 'Edit artist'
+    _entity_form: "artist.edit"
+    _title: "Edit artist"
   requirements:
-    _permission: 'administer artist entities'
+    _permission: "edit artist"
 
 entity.artist.delete_form:
-  path: '/artist/{artist}/delete'
+  path: "/artist/{artist}/delete"
   defaults:
-    _entity_form: 'artist.delete'
-    _title: 'Delete artist'
+    _entity_form: "artist.delete"
+    _title: "Delete artist"
   requirements:
-    _permission: 'administer artist entities'
+    _permission: "delete artist"

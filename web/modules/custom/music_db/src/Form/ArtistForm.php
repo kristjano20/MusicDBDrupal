@@ -22,6 +22,9 @@ class ArtistForm extends ContentEntityForm {
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
       '#required' => TRUE,
+      '#autocomplete_route_name' => 'music_db.spotify_artist_autocomplete',
+      '#autocomplete_route_parameters' => [],
+      '#description' => $this->t('Start typing to search Spotify and pick the correct artist.'),
     ];
     $form['date_of_birth'] = [
       '#type' => 'date',
@@ -46,18 +49,16 @@ class ArtistForm extends ContentEntityForm {
       '#title' => $this->t('About'),
       '#required' => FALSE,
     ];
-    $form['spotify_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('SpotifyID'),
-      '#disabled' => TRUE,
-      '#required' => FALSE,
-    ];
-    $form['discogs_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('DiscogsID'),
-      '#disabled' => TRUE,
-      '#required' => FALSE,
-    ];
+    $id_fields = ['spotify_id' => 'SpotifyID', 'discogs_id' => 'DiscogsID'];
+    foreach ($id_fields as $field_name => $field_title) {
+      $form[$field_name] = [
+        '#type' => 'textfield',
+        '#title' => $this->t($field_title),
+        '#required' => FALSE,
+        '#default_value' => $this->entity->get($field_name)->value ?? '',
+        '#attributes' => ['readonly' => 'readonly'],
+      ];
+    }
 
     return parent::buildForm($form, $form_state);
   }
