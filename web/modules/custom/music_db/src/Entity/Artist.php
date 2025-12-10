@@ -77,6 +77,11 @@ class Artist extends ContentEntityBase {
       ->setDisplayOptions('view', [
         'type' => 'datetime_default',
         'weight' => 5,
+        'settings' => [
+          'format_type' => 'html_date',
+          'timezone_override' => '',
+        ],
+
       ])
       ->setDisplayConfigurable('view', TRUE)
     ;
@@ -92,6 +97,11 @@ class Artist extends ContentEntityBase {
       ->setDisplayOptions('view', [
         'type' => 'datetime_default',
         'weight' => 6,
+        'settings' => [
+          'format_type' => 'html_date',
+          'timezone_override' => '',
+        ],
+        
       ])
       ->setDisplayConfigurable('view', TRUE)
     ;
