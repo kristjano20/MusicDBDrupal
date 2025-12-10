@@ -20,7 +20,7 @@ use Drupal\music_db\Form\SongForm;
     'id' => 'id',
     'uuid' => 'uuid',
     'label' => 'title',
-    'revision' => 'revision_id',
+    # 'revision' => 'revision_id',
   ],
 
   handlers: [
@@ -43,7 +43,7 @@ use Drupal\music_db\Form\SongForm;
 
   base_table: 'song',
 
-  revision_table: 'song_revision'
+  # revision_table: 'song_revision'
 )]
 class Song extends ContentEntityBase {
 
