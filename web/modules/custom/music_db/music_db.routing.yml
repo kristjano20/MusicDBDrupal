@@ -48,3 +48,37 @@ music_db.spotify_artist_autocomplete:
   options:
     _auth:
       - "cookie"
+
+
+#Song Routes
+entity.song.collection:
+  path: '/admin/content/songs'
+  defaults:
+    _entity_list: 'song'
+    _title: 'Songs'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.add_form:
+  path: '/song/add'
+  defaults:
+    _entity_form: 'song.add'
+    _title: 'Add song'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.edit_form:
+  path: '/song/{song}/edit'
+  defaults:
+    _entity_form: 'song.edit'
+    _title: 'Edit song'
+  requirements:
+    _permission: 'administer song entities'
+
+entity.song.delete_form:
+  path: '/song/{song}/delete'
+  defaults:
+    _entity_form: 'song.delete'
+    _title: 'Delete song'
+  requirements:
+    _permission: 'administer song entities'
