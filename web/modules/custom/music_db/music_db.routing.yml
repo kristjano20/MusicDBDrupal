@@ -82,3 +82,11 @@ entity.song.delete_form:
     _title: 'Delete song'
   requirements:
     _permission: 'administer song entities'
+
+entity.song.canonical:
+  path: '/song/{song}'
+  defaults:
+    _entity_view: 'song'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _entity_access: 'song.view'
