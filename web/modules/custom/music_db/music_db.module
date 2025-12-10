@@ -2,9 +2,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 
-/**
- * Adds Spotify autocomplete to artist title field.
- */
+
 function music_db_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   $node = $form_state->getFormObject()->getEntity();
   if ($node->bundle() !== 'artist') {
@@ -19,5 +17,26 @@ function music_db_form_node_form_alter(array &$form, FormStateInterface $form_st
   $title_element['#autocomplete_route_name'] = 'music_db.spotify_artist_autocomplete';
   $title_element['#autocomplete_route_parameters'] = [];
   $title_element['#description'] = t('Start typing to search Spotify and pick the correct artist.');
+}
+
+
+function music_db_form_artist_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form['#attached']['library'][] = 'music_db/autocomplete_provider';
+
+  $entity = $form_state->getFormObject()->getEntity();
+  $provider = \Drupal\music_db\Helper\FormHelper::getProviderValue($form, $form_state, $entity);
+
+  \Drupal\music_db\Helper\FormHelper::setAutocompleteOnNameField($form, $provider);
+  \Drupal\music_db\Helper\FormHelper::setAjaxOnProviderField($form);
+  \Drupal\music_db\Helper\FormHelper::wrapNameField($form);
+}
+
+function music_db_autocomplete_provider_ajax_callback(array &$form, FormStateInterface $form_state) {
+  $provider = \Drupal\music_db\Helper\FormHelper::getProviderValue($form, $form_state);
+  \Drupal\music_db\Helper\FormHelper::setAutocompleteOnNameField($form, $provider);
+  \Drupal\music_db\Helper\FormHelper::wrapNameField($form);
+
+  $name_field = \Drupal\music_db\Helper\FormHelper::getNameField($form);
+  return $name_field ?: ['#markup' => '<div id="artist-name-wrapper"></div>'];
 }
 

@@ -1,0 +1,6 @@
+autocomplete_provider:
+  js:
+    js/autocomplete_provider.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.autocomplete
