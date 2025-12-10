@@ -35,6 +35,7 @@ use Drupal\music_db\Form\AlbumForm;
   links: [
     'canonical' => '/album/{album}',
     'add-form' => '/album/add',
+    'add-page' => '/album/add-page',
     'edit-form' => '/album/{album}/edit',
     'delete-form' => '/album/{album}/delete',
     'collection' => '/admin/content/albums',

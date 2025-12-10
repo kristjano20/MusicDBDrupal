@@ -11,6 +11,7 @@ use Drupal\music_db\ArtistAccessControlHandler;
 use Drupal\music_db\ArtistListBuilder;
 use Drupal\music_db\Form\ArtistDeleteForm;
 use Drupal\music_db\Form\ArtistForm;
+use Drupal\views\EntityViewsData;
 
 #[ContentEntityType(
   id: 'artist',
@@ -31,10 +32,12 @@ use Drupal\music_db\Form\ArtistForm;
       'edit' => ArtistForm::class,
       'delete' => ArtistDeleteForm::class,
     ],
+    'views_data' => EntityViewsData::class,
   ],
   links: [
     'canonical' => '/artist/{artist}',
     'add-form' => '/artist/add',
+    'add-page' => '/artist/add-page',
     'edit-form' => '/artist/{artist}/edit',
     'delete-form' => '/artist/{artist}/delete',
     'collection' => '/admin/content/artists',

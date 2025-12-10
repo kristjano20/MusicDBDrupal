@@ -25,6 +25,16 @@ entity.artist.add_form:
   requirements:
     _permission: "add artist"
 
+entity.artist.add_page:
+  path: '/artist/add-page'
+  defaults:
+    _controller: '\Drupal\Core\Entity\Controller\EntityController::addPage'
+    _title: 'Add Artist'
+    entity_type_id: 'artist'
+  requirements:
+    _permission: 'administer music db'
+
+
 entity.artist.edit_form:
   path: "/artist/{artist}/edit"
   defaults:
@@ -68,6 +78,16 @@ entity.album.add_form:
     _title: "Add Album"
   requirements:
     _permission: "add album"
+
+entity.album.add_page:
+  path: '/album/add-page'
+  defaults:
+    _controller: '\Drupal\Core\Entity\Controller\EntityController::addPage'
+    _title: 'Add album'
+    entity_type_id: 'album'
+  requirements:
+    _permission: 'administer music db'
+
 
 entity.album.edit_form:
   path: "/album/{album}/edit"
