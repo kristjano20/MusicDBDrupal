@@ -3,33 +3,33 @@
 namespace Drupal\music_db\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\spotify_lookup\SpotifyLookupService;
+use Drupal\discogs_lookup\DiscogsLookupService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Autocomplete controller for Spotify artist search.
+ * Autocomplete controller for Discogs artist search.
  */
-class SpotifyArtistAutocompleteController extends ControllerBase {
+class DiscogsArtistAutocompleteController extends ControllerBase {
 
   /**
-   * Spotify lookup client.
+   * Discog lookup client.
    */
-  protected SpotifyLookupService $spotifyLookup;
+  protected DiscogsLookupService $discogsLookup;
 
-  public function __construct(SpotifyLookupService $spotify_lookup) {
-    $this->spotifyLookup = $spotify_lookup;
+  public function __construct(DiscogsLookupService $discogs_lookup) {
+    $this->discogsLookup = $discogs_lookup;
   }
 
   public static function create(ContainerInterface $container): static {
     return new static(
-      $container->get('spotify_lookup.search')
+      $container->get('discogs_lookup.search')
     );
   }
 
   /**
-   * Returns Spotify artist matches for autocomplete.
+   * Returns Discogs artist matches for autocomplete.
    */
   public function handleAutocomplete(Request $request): JsonResponse {
     $input = trim((string) $request->query->get('q'));
@@ -40,11 +40,12 @@ class SpotifyArtistAutocompleteController extends ControllerBase {
     }
 
     try {
-      $data = $this->spotifyLookup->search($input, 'artist', 8);
-      $artists = $data['artists']['items'] ?? [];
+      $data = $this->discogsLookup->search($input, 'artist', 8);
+      $results = $data['results'] ?? [];
 
-      foreach ($artists as $artist) {
-        $name = $artist['name'] ?? '';
+      foreach ($results as $result) {
+        $name = $result['title'] ?? '';
+        $id = $result['id'] ?? '';
         if (!$name) {
           continue;
         }
@@ -52,12 +53,12 @@ class SpotifyArtistAutocompleteController extends ControllerBase {
         $matches[] = [
           'value' => $name,
           'label' => $name,
-          'spotify_id' => $artist['id'] ?? '',
+          'discogs_id' => $id,
         ];
       }
     }
     catch (\Throwable $e) {
-      $this->getLogger('music_db')->error('Spotify autocomplete failed: @message', [
+      $this->getLogger('music_db')->error('Discogs autocomplete failed: @message', [
         '@message' => $e->getMessage(),
       ]);
     }

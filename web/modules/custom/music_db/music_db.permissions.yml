@@ -2,6 +2,12 @@ administer music db:
   title: 'Administer music db entities'
 
 # Artist permissions
+administer artist entities:
+  title: 'Administer artist entities'
+  description: 'Create, edit and delete artist entities.'
+  restrict access: true
+
+
 view artist:
   title: 'View Artists'
 add artist:

@@ -13,7 +13,7 @@ class ArtistListBuilder extends EntityListBuilder {
   }
 
   public function buildRow(EntityInterface $entity) {
-    $row['name'] = $entity->label();
+    $row['name'] = $entity->toLink();
     return $row + parent::buildRow($entity);
   }
 
