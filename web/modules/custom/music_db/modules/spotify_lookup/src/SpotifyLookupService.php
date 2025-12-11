@@ -46,6 +46,37 @@ class SpotifyLookupService {
 
     return $data;
   }
+
+  /**
+   * Fetches detailed artist information by Spotify ID.
+   *
+   * @param string $spotifyId
+   *   The Spotify artist ID.
+   *
+   * @return array
+   *   The artist data from Spotify API.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getArtist(string $spotifyId): array {
+    $token = $this->getAccessToken();
+
+    $baseUrl = $this->config->get('api_uri') ?: 'https://api.spotify.com/v1';
+
+    $response = $this->httpClient->get(
+      $baseUrl . '/artists/' . $spotifyId,
+      [
+        'headers' => [
+          'Authorization' => 'Bearer ' . $token,
+        ],
+      ]
+    );
+
+    $data = json_decode($response->getBody()->getContents(), TRUE);
+
+    return $data;
+  }
+
   protected function getAccessToken(): string {
     if ($this->accessToken) {
       return $this->accessToken;
