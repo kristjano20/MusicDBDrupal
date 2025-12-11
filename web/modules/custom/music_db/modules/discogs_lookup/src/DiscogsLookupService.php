@@ -52,5 +52,36 @@ class DiscogsLookupService
 
     return $data;
   }
+
+  /**
+   * Fetches artist information by Discogs ID.
+   *
+   * @param string 
+   *
+   * @return array
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getArtist(string $discogsId): array {
+    $baseUrl = 'https://api.discogs.com/artists/' . $discogsId;
+
+    $token = $this->config->get('token');
+
+    $headers = [
+      'User-Agent' => 'MusicDBDrupal +https://tonlistar-skraning.ddev.site',
+    ];
+
+    if ($token) {
+      $headers['Authorization'] = 'Discogs token=' . trim($token);
+    }
+
+    $response = $this->httpClient->get($baseUrl, [
+      'headers' => $headers,
+    ]);
+
+    $data = json_decode($response->getBody()->getContents(), TRUE);
+
+    return $data;
+  }
 }
 
