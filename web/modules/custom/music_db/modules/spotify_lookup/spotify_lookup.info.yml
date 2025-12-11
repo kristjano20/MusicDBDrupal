@@ -2,5 +2,4 @@ type: module
 core_version_requirement: "^10 || ^11"
 name: Spotify lookup
 package: Custom
-dependencies:
-  - music_db
+

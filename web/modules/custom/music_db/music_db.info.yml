@@ -5,3 +5,4 @@ package: Custom
 core_version_requirement: ^11
 dependencies:
   - spotify_lookup
+  - discogs_lookup
