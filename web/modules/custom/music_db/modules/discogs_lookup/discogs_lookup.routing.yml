@@ -1,0 +1,8 @@
+discogs_lookup.settings:
+  path: '/admin/config/services/discogs'
+  defaults:
+    _form: '\Drupal\discogs_lookup\Form\DiscogsSettingsForm'
+    _title: 'Discogs API module settings'
+  requirements:
+    _permission: 'administer site configuration'
+
