@@ -331,9 +331,19 @@ class MusicSearchForm extends FormBase {
       'discogs_id' => $selected_artist['discogs_id'] ?? '',
     ]);
 
-    // Redirect to form (change the entity type to the name of the form)
-    $url = Url::fromRoute('entity.artist.add_form');
-    $form_state->setRedirectUrl($url);
+    // Redirect to ArtistDataForm with the IDs as route parameters.
+    $spotify_id = $selected_artist['spotify_id'] ?? '';
+    $discogs_id = $selected_artist['discogs_id'] ?? '';
+    
+    // Use 'none' as placeholder for empty IDs (route requires both parameters).
+    // ArtistDataForm should handle 'none' or empty values gracefully.
+    $spotify_id = !empty($spotify_id) ? $spotify_id : 'none';
+    $discogs_id = !empty($discogs_id) ? $discogs_id : 'none';
+    
+    $form_state->setRedirect('music_db.data_select_artist', [
+      'spotify_id' => $spotify_id,
+      'discogs_id' => $discogs_id,
+    ]);
   }
 
 }
