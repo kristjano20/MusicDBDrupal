@@ -15,9 +15,9 @@ class DiscogsAutocompleteController extends ControllerBase {
   protected DiscogsLookupService $discogsLookup;
 
   /**
-   * Constructs a DiscogsAutocompleteController
+   * Constructs a discogsAutocompleteController
    *
-   * @param \Drupal\discogs_lookup\DiscogsLookupService $discogs_lookup
+   * @param \Drupal\discogs_lookup\DiscogsLookupService 
    */
   public function __construct(DiscogsLookupService $discogs_lookup) {
     $this->discogsLookup = $discogs_lookup;
@@ -35,8 +35,8 @@ class DiscogsAutocompleteController extends ControllerBase {
   /**
    * Returns discogs matches for autocomplete.
    *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   * @param string $type
+   * @param \Symfony\Component\HttpFoundation\Request 
+   * @param string 
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
   public function handleAutocomplete(Request $request, string $type = 'artist'): JsonResponse {
