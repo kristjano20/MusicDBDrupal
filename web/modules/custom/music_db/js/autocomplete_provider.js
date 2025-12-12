@@ -3,11 +3,27 @@
 
   Drupal.behaviors.musicDbAutocompleteProvider = {
     attach: function (context, settings) {
-      var inputs = once('autocomplete-provider-name', 'input[name="name[0][value]"], input[name="name"]', context);
+      // Find name or title input field - check multiple possible structures
       var nameInput = null;
-      for (var i = 0; i < inputs.length; i++) {
-        if (!inputs[i].hasAttribute('data-music-db-skip')) {
-          nameInput = inputs[i];
+      var possibleSelectors = [
+        'input[name="name[0][value]"]',
+        'input[name="name"]',
+        'input[name="title[0][value]"]',
+        'input[name="title"]',
+        'input[name="title[widget][0][value]"]',
+        'input[name="name[widget][0][value]"]'
+      ];
+      
+      for (var s = 0; s < possibleSelectors.length; s++) {
+        var found = context.querySelectorAll(possibleSelectors[s]);
+        for (var f = 0; f < found.length; f++) {
+          if (!found[f].hasAttribute('data-music-db-skip') && !found[f].hasAttribute('data-once-autocomplete-provider-name')) {
+            found[f].setAttribute('data-once-autocomplete-provider-name', 'true');
+            nameInput = found[f];
+            break;
+          }
+        }
+        if (nameInput) {
           break;
         }
       }
@@ -15,6 +31,15 @@
 
       if (!providerSelect || !nameInput) {
         return;
+      }
+
+      function getFieldSelectors() {
+        return {
+          spotify: document.querySelector('input[name="spotify_id[0][value]"]') ||
+                   document.querySelector('input[name="spotify_id"]'),
+          discogs: document.querySelector('input[name="discogs_id[0][value]"]') ||
+                   document.querySelector('input[name="discogs_id"]')
+        };
       }
 
       function lookupOppositeId(artistName, currentProvider, targetField) {
@@ -40,15 +65,37 @@
       function updateAutocomplete() {
         var provider = providerSelect.value;
         var routePath = null;
-        var description = 'Enter the artist name.';
+        var description = 'Enter the name.';
+        var formEl = nameInput.closest('form');
+        var autocompleteType = formEl ? formEl.getAttribute('data-music-db-autocomplete-type') : 'artist';
 
         if (provider === 'spotify') {
-          routePath = '/music_db/autocomplete/spotify/artist';
-          description = 'Start typing to search Spotify and pick the correct artist.';
+          if (autocompleteType === 'album') {
+            routePath = '/music_db/autocomplete/spotify/album';
+            description = 'Start typing to search Spotify and pick the correct album.';
+          }
+          else if (autocompleteType === 'song') {
+            routePath = '/music_db/autocomplete/spotify/song';
+            description = 'Start typing to search Spotify and pick the correct song.';
+          }
+          else {
+            routePath = '/music_db/autocomplete/spotify/artist';
+            description = 'Start typing to search Spotify and pick the correct artist.';
+          }
         }
         else if (provider === 'discogs') {
-          routePath = '/music_db/autocomplete/discogs/artist';
-          description = 'Start typing to search Discogs and pick the correct artist.';
+          if (autocompleteType === 'album') {
+            routePath = '/music_db/autocomplete/discogs/album';
+            description = 'Start typing to search Discogs and pick the correct album.';
+          }
+          else if (autocompleteType === 'song') {
+            routePath = '/music_db/autocomplete/discogs/song';
+            description = 'Start typing to search Discogs and pick the correct song.';
+          }
+          else {
+            routePath = '/music_db/autocomplete/discogs/artist';
+            description = 'Start typing to search Discogs and pick the correct artist.';
+          }
         }
         var autocompleteOnce = 'autocomplete';
         var onceAttr = 'data-once-' + autocompleteOnce;
@@ -96,24 +143,20 @@
               select: function(event, ui) {
                 nameInput.value = ui.item.value;
                 var artistName = ui.item.value;
+                var fields = getFieldSelectors();
 
-                var spotifyField = document.querySelector('input[name="spotify_id[0][value]"]') ||
-                                   document.querySelector('input[name="spotify_id"]');
-                var discogsField = document.querySelector('input[name="discogs_id[0][value]"]') ||
-                                   document.querySelector('input[name="discogs_id"]');
+                if (provider === 'spotify' && fields.spotify && ui.item.spotify_id) {
+                  fields.spotify.value = ui.item.spotify_id;
 
-                if (provider === 'spotify' && spotifyField && ui.item.spotify_id) {
-                  spotifyField.value = ui.item.spotify_id;
-
-                  if (discogsField && artistName) {
-                    lookupOppositeId(artistName, 'spotify', discogsField);
+                  if (fields.discogs && artistName) {
+                    lookupOppositeId(artistName, 'spotify', fields.discogs);
                   }
                 }
-                else if (provider === 'discogs' && discogsField && ui.item.discogs_id) {
-                  discogsField.value = ui.item.discogs_id;
+                else if (provider === 'discogs' && fields.discogs && ui.item.discogs_id) {
+                  fields.discogs.value = ui.item.discogs_id;
 
-                  if (spotifyField && artistName) {
-                    lookupOppositeId(artistName, 'discogs', spotifyField);
+                  if (fields.spotify && artistName) {
+                    lookupOppositeId(artistName, 'discogs', fields.spotify);
                   }
                 }
 
@@ -127,7 +170,7 @@
           }
         }
 
-        var wrapper = nameInput.closest('.js-form-item-name, .form-item-name, .form-item');
+        var wrapper = nameInput.closest('.js-form-item-name, .form-item-name, .form-item, .js-form-item-title, .form-item-title');
         if (wrapper) {
           var descriptionElement = wrapper.querySelector('.description');
           if (descriptionElement) {
@@ -157,21 +200,18 @@
 
         nameInputTimeout = setTimeout(function() {
           var currentProvider = providerSelect.value;
-          var spotifyField = document.querySelector('input[name="spotify_id[0][value]"]') ||
-                             document.querySelector('input[name="spotify_id"]');
-          var discogsField = document.querySelector('input[name="discogs_id[0][value]"]') ||
-                             document.querySelector('input[name="discogs_id"]');
+          var fields = getFieldSelectors();
 
-          if (currentProvider === 'spotify' && spotifyField && !spotifyField.value) {
-            lookupOppositeId(enteredName, 'discogs', spotifyField);
-            if (discogsField && !discogsField.value) {
-              lookupOppositeId(enteredName, 'spotify', discogsField);
+          if (currentProvider === 'spotify' && fields.spotify && !fields.spotify.value) {
+            lookupOppositeId(enteredName, 'discogs', fields.spotify);
+            if (fields.discogs && !fields.discogs.value) {
+              lookupOppositeId(enteredName, 'spotify', fields.discogs);
             }
           }
-          else if (currentProvider === 'discogs' && discogsField && !discogsField.value) {
-            lookupOppositeId(enteredName, 'spotify', discogsField);
-            if (spotifyField && !spotifyField.value) {
-              lookupOppositeId(enteredName, 'discogs', spotifyField);
+          else if (currentProvider === 'discogs' && fields.discogs && !fields.discogs.value) {
+            lookupOppositeId(enteredName, 'spotify', fields.discogs);
+            if (fields.spotify && !fields.spotify.value) {
+              lookupOppositeId(enteredName, 'discogs', fields.spotify);
             }
           }
         }, 500);
@@ -182,4 +222,3 @@
   };
 
 })(Drupal, once);
-
