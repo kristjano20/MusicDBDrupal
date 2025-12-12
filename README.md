@@ -3,8 +3,8 @@
 
 
 ## Authors
-- nafn
-- nafn
+- Lára Amelía Kowalczyk
+- Kristján Werner Óskarsson
 - Krummi Poomi Gunnarsson
 
 
@@ -79,10 +79,16 @@ The system is designed so that:
 ---
 
 ## Usage
-###(WORK IN PROGRESS)
+
+**Creating Custom Entity**
 - Navigate to Add Artist, Add Album, or Add Song
-- Select the desired autocomplete provider (None, Spotify, or Discogs)
-- Start typing to receive autocomplete suggestions
-- Select a result to populate the field automatically
+- Type in the desired title or name
+- Proceed to Fetch the data (if there is any)
+- Select the desired data you would like to use between the providers (images, informations, descriptions, IDs, etc )
+- Fill or edit any information that you desire
+- Save
+
+
+Congrats! You have now created your custom entity.
 
 ---
