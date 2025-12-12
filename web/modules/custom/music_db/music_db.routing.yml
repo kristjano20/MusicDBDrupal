@@ -51,6 +51,14 @@ entity.artist.delete_form:
   requirements:
     _permission: "delete artist"
 
+music_db.data_select_artist:
+  path: '/artist/fetch-data/{spotify_id}/{discogs_id}'
+  defaults:
+    _form: '\Drupal\music_db\Form\ArtistDataForm'
+    _title: 'Fetch External Data'
+  requirements:
+    _permission: 'add artist'
+
 #----------------------------------------------------
 # Album routes
 #----------------------------------------------------

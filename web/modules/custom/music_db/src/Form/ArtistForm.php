@@ -23,6 +23,11 @@ class ArtistForm extends ContentEntityForm {
       '#title' => $this->t('Name'),
       '#required' => TRUE,
     ];
+    $form['fetch_data'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Fetch data'),
+      '#submit' => ['::redirectToDataForm'],
+    ];
     $form['date_of_birth'] = [
       '#type' => 'date',
       '#title' => $this->t('Date of Birth/Founded'),
@@ -73,4 +78,16 @@ class ArtistForm extends ContentEntityForm {
     $form_state->setRedirect('entity.artist.collection');
   }
 
+  public function redirectToDataForm(array &$form, FormStateInterface $form_state) {
+    $spotify_id = $form_state->getValue('spotify_id');
+    $discogs_id = $form_state->getValue('discogs_id');
+
+    $form_state->setRedirect(
+      'music_db.data_select_artist',
+      [
+        'spotify_id' => $spotify_id,
+        'discogs_id' => $discogs_id,
+      ]
+    );
+  }
 }
