@@ -13,7 +13,6 @@ class SongForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
     
-    // Disable ID fields so they appear greyed out (handle widget structure).
     $id_fields = ['spotify_id', 'discogs_id'];
     foreach ($id_fields as $field_name) {
       if (isset($form[$field_name]['widget'][0]['value'])) {

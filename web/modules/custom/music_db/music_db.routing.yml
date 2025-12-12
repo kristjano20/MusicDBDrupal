@@ -259,3 +259,15 @@ music_db.artist_id_lookup:
   options:
     _auth:
       - "cookie"
+
+#----------------------------------------------------
+# Music Search routes
+#----------------------------------------------------
+
+music_db.search:
+  path: "/music-search"
+  defaults:
+    _form: '\Drupal\music_db\Form\MusicSearchForm'
+    _title: "Search"
+  requirements:
+    _permission: "access content"
