@@ -169,6 +169,24 @@ class Album extends ContentEntityBase {
       ->setDisplayConfigurable('view', TRUE);
     ;
 
+    $fields['autocomplete_provider'] = BaseFieldDefinition::create('list_string')
+      ->setLabel(t('Autocomplete Provider'))
+      ->setDescription(t('Select which service to use for artist autocomplete search.'))
+      ->setSettings([
+        'allowed_values' => [
+          'none' => t('None'),
+          'spotify' => t('Spotify'),
+          'discogs' => t('Discogs'),
+        ],
+      ])
+      ->setDefaultValue('none')
+      ->setDisplayOptions('form', [
+        'type' => 'options_select',
+        'weight' => -1,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', FALSE);
+
     $fields['spotify_id'] = BaseFieldDefinition::create('string')
       ->setDisplayOptions('view', [
         'weight' => 6,

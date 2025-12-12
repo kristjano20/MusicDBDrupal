@@ -181,11 +181,7 @@ class Artist extends ContentEntityBase {
         'weight' => -1,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'list_default',
-        'weight' => -1,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', FALSE);
 
     $fields['spotify_id'] = BaseFieldDefinition::create('string');
     $fields['discogs_id'] = BaseFieldDefinition::create('string');

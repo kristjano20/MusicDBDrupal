@@ -1,7 +1,6 @@
 discogs_lookup.settings:
-  title: 'Discogs API module settings'
-  description: 'Configure Discogs API URI.'
+  title: "Discogs API module settings"
+  description: "Configure Discogs API URI."
   route_name: discogs_lookup.settings
   parent: system.admin_config_services
   weight: 0
-

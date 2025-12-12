@@ -48,13 +48,10 @@ class SpotifyLookupService {
   }
 
   /**
-   * Fetches detailed artist information by Spotify ID.
-   *
-   * @param string $spotifyId
-   *   The Spotify artist ID.
+   * Fetches artist information by Spotify ID.
+   * @param string
    *
    * @return array
-   *   The artist data from Spotify API.
    *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
