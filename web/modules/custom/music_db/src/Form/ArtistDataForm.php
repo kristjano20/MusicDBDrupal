@@ -44,8 +44,26 @@ class ArtistDataForm extends FormBase {
     // --------------------------------------------------------------------
     // Fetch external data
     // --------------------------------------------------------------------
-    $spotify_data = $this->spotifyService->getArtist($spotify_id);
-    $discogs_data = $this->discogsService->getArtist($discogs_id);
+    // Only fetch data if IDs are provided and not empty/invalid.
+    $spotify_data = [];
+    if (!empty($spotify_id) && $spotify_id !== 'none' && $spotify_id !== '0') {
+      try {
+        $spotify_data = $this->spotifyService->getArtist($spotify_id);
+      }
+      catch (\Throwable $e) {
+        $spotify_data = [];
+      }
+    }
+
+    $discogs_data = [];
+    if (!empty($discogs_id) && $discogs_id !== 'none' && $discogs_id !== '0') {
+      try {
+        $discogs_data = $this->discogsService->getArtist($discogs_id);
+      }
+      catch (\Throwable $e) {
+        $discogs_data = [];
+      }
+    }
 
     // Persist the fetched API data so submitForm() can access it.
     $form_state->set('spotify_data', $spotify_data);
