@@ -180,7 +180,7 @@ class MusicSearchForm extends FormBase {
 
         // Normalize name for duplicate checking.
         $normalized_name = mb_strtolower(trim($name));
-        
+
         // Check if we already have this artist from Spotify.
         $found = FALSE;
         foreach ($artist_data as &$existing_artist) {
@@ -334,12 +334,12 @@ class MusicSearchForm extends FormBase {
     // Redirect to ArtistDataForm with the IDs as route parameters.
     $spotify_id = $selected_artist['spotify_id'] ?? '';
     $discogs_id = $selected_artist['discogs_id'] ?? '';
-    
+
     // Use 'none' as placeholder for empty IDs (route requires both parameters).
     // ArtistDataForm should handle 'none' or empty values gracefully.
     $spotify_id = !empty($spotify_id) ? $spotify_id : 'none';
     $discogs_id = !empty($discogs_id) ? $discogs_id : 'none';
-    
+
     $form_state->setRedirect('music_db.data_select_artist', [
       'spotify_id' => $spotify_id,
       'discogs_id' => $discogs_id,
