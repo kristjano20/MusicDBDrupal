@@ -11,7 +11,6 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 
-use Drupal\media\Entity\Media;
 
 /**
  * Form for selecting which external data to import (Spotify/Discogs).
@@ -362,7 +361,7 @@ class ArtistDataForm extends FormBase {
 
     return $media->id();
   }
-  
+
   /**
    * Store selected values.
    */
