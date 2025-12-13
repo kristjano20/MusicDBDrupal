@@ -59,6 +59,15 @@ music_db.data_select_artist:
   requirements:
     _permission: 'add artist'
 
+music_db.custom_artists:
+  path: '/custom-artists'
+  defaults:
+    _controller: '\Drupal\music_db\Controller\ArtistListController::list'
+    _title: 'Custom Artists'
+  requirements:
+    _permission: 'access content'
+
+
 #----------------------------------------------------
 # Album routes
 #----------------------------------------------------
@@ -112,6 +121,14 @@ entity.album.delete_form:
   requirements:
     _permission: "delete album"
 
+music_db.custom_albums:
+  path: '/custom-albums'
+  defaults:
+    _controller: '\Drupal\music_db\Controller\AlbumListController::list'
+    _title: 'Custom Albums'
+  requirements:
+    _permission: 'access content'
+
 #----------------------------------------------------
 # Song routes
 #----------------------------------------------------
@@ -164,6 +181,14 @@ entity.song.canonical:
     _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
   requirements:
     _entity_access: "song.view"
+
+music_db.custom_songs:
+  path: '/custom-songs'
+  defaults:
+    _controller: '\Drupal\music_db\Controller\SongListController::list'
+    _title: 'Custom Songs'
+  requirements:
+    _permission: 'access content'
 
 #----------------------------------------------------
 # Spotify routes
