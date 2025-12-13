@@ -47,6 +47,14 @@ class SpotifyLookupService {
     return $data;
   }
 
+  
+  public function searchArtists(string $query, ?int $limit = NULL): array {
+    return $this->search($query, 'artist', $limit);
+  }
+  public function searchSongs(string $query, ?int $limit = NULL): array {
+    return $this->search($query, 'track', $limit);
+  }
+
   /**
    * Fetches artist information by Spotify ID.
    * @param string
@@ -62,6 +70,41 @@ class SpotifyLookupService {
 
     $response = $this->httpClient->get(
       $baseUrl . '/artists/' . $spotifyId,
+      [
+        'headers' => [
+          'Authorization' => 'Bearer ' . $token,
+        ],
+      ]
+    );
+
+    $data = json_decode($response->getBody()->getContents(), TRUE);
+
+    return $data;
+  }
+
+
+  public function searchAlbums(string $query, ?int $limit = NULL): array {
+    return $this->search($query, 'album', $limit);
+  }
+
+  /**
+   * Fetches album information by Spotify ID.
+   *
+   * @param string $spotifyId
+   *   The Spotify album ID.
+   *
+   * @return array
+   *   Array containing album data.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   */
+  public function getAlbum(string $spotifyId): array {
+    $token = $this->getAccessToken();
+
+    $baseUrl = $this->config->get('api_uri') ?: 'https://api.spotify.com/v1';
+
+    $response = $this->httpClient->get(
+      $baseUrl . '/albums/' . $spotifyId,
       [
         'headers' => [
           'Authorization' => 'Bearer ' . $token,
