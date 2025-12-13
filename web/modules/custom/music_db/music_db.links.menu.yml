@@ -8,110 +8,6 @@ music_db.admin:
   parent: system.admin
   weight: -100
 
-# ================================
-# ARTISTS
-# ================================
-music_db.admin.artists:
-  title: 'Artists'
-  description: 'Manage Artists'
-  route_name: entity.artist.collection
-  parent: music_db.admin
-  weight: 0
-
-music_db.admin.add_artist:
-  title: '➕ Add Artist'
-  description: 'Create a new Artist'
-  route_name: entity.artist.add_form
-  parent: music_db.admin.artists
-  weight: 1
-
-music_db.admin.custom_artists:
-  title: 'Custom Artist list'
-  route_name: music_db.custom_artists
-  parent: music_db.admin
-  weight: -40
-
-
-# ================================
-# ALBUMS
-# ================================
-music_db.admin.albums:
-  title: 'Albums'
-  description: 'Manage Albums'
-  route_name: entity.album.collection
-  parent: music_db.admin
-  weight: 10
-
-music_db.admin.add_album:
-  title: '➕ Add Album'
-  description: 'Create a new Album'
-  route_name: entity.album.add_form
-  parent: music_db.admin.albums
-  weight: 11
-
-music_db.admin.custom_albums:
-  title: 'Custom Album list'
-  description: 'View all albums created in the system'
-  route_name: music_db.custom_albums
-  parent: music_db.admin
-  weight: -39
-
-
-# ================================
-# SONGS
-# ================================
-music_db.admin.songs:
-  title: 'Songs'
-  description: 'Manage Songs'
-  route_name: entity.song.collection
-  parent: music_db.admin
-  weight: 20
-
-music_db.admin.add_song:
-  title: '➕ Add Song'
-  description: 'Create a new Song'
-  route_name: entity.song.add_form
-  parent: music_db.admin.songs
-  weight: 21
-
-music_db.admin.custom_songs:
-  title: 'Custom Song list'
-  description: 'View all songs created in the system'
-  route_name: music_db.custom_songs
-  parent: music_db.admin
-  weight: -38
-
-
-# ----------------------------------------------------------
-# QUICK ADD MENU (system.admin_content_add)
-# This adds Artist/Album/Song to:
-#   - Gin Quick Add ("+" floating button)
-#   - Admin Toolbar Add menu
-#   - /admin/content/add
-# ----------------------------------------------------------
-music_db.quick_add.artist:
-  title: 'Artist'
-  description: 'Create a new Artist'
-  route_name: entity.artist.add_form
-  parent: system.admin_content_add
-  weight: 5
-
-music_db.quick_add.album:
-  title: 'Album'
-  description: 'Create a new Album'
-  route_name: entity.album.add_form
-  parent: system.admin_content_add
-  weight: 6
-
-music_db.quick_add.song:
-  title: 'Song'
-  description: 'Create a new Song'
-  route_name: entity.song.add_form
-  parent: system.admin_content_add
-  weight: 7
-
-
-
 # ----------------------------------------------------------
 # MUSIC SEARCH MENU
 # ----------------------------------------------------------
@@ -123,3 +19,32 @@ music_db.admin.music_search:
   parent: music_db.admin
   weight: -50
 
+# ================================
+# ARTISTS
+# ================================
+
+music_db.admin.artists:
+  title: 'View Artists'
+  route_name: entity.artist.collection
+  parent: music_db.admin
+  weight: -40
+
+# ================================
+# ALBUMS
+# ================================
+music_db.admin.albums:
+  title: 'View Albums'
+  description: 'View all albums created in the system'
+  route_name: entity.album.collection
+  parent: music_db.admin
+  weight: -39
+
+# ================================
+# SONGS
+# ================================
+music_db.admin.songs:
+  title: 'View Songs'
+  description: 'View all songs created in the system'
+  route_name: entity.song.collection
+  parent: music_db.admin
+  weight: -38

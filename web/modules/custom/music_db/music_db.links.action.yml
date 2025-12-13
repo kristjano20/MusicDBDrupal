@@ -1,19 +1,19 @@
 artist.add:
-  route_name: entity.artist.add_form
+  route_name: music_db.search
   title: 'Add Artist'
   appears_on:
     - entity.artist.collection
     - system.admin_content
 
 album.add:
-  route_name: entity.album.add_form
+  route_name: music_db.search
   title: 'Add Album'
   appears_on:
     - entity.album.collection
     - system.admin_content
 
-entity.song.add_form:
-  route_name: entity.song.add_form
+entity.song.add:
+  route_name: music_db.search
   title: 'Add Song'
   appears_on:
     - entity.song.collection
