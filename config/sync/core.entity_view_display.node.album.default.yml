@@ -76,7 +76,7 @@ content:
     region: content
   field_year_published:
     type: yearonly_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
     weight: 113

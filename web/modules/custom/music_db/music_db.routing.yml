@@ -75,6 +75,15 @@ music_db.custom_artists:
   requirements:
     _permission: 'access content'
 
+music_db.custom_artists_letter:
+  path: '/custom-artists/{letter}'
+  defaults:
+    _controller: '\Drupal\music_db\Controller\ArtistListController::list'
+    _title: 'Artists'
+  requirements:
+    _permission: 'access content'
+    letter: '[A-Za-z]'
+
 
 #----------------------------------------------------
 # Album routes

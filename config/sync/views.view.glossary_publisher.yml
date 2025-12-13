@@ -364,6 +364,7 @@ display:
         title: Útgefendur
         description: ''
         weight: -47
+        enabled: false
         expanded: false
         menu_name: main
         parent: ''

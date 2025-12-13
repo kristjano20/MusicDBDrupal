@@ -1,0 +1,3 @@
+token: MDjAglDRamODmwwREOsmKsAYVqjpCkkPEkDFSDyk
+api_uri: 'https://api.discogs.com/database/search'
+max_hits: 20

@@ -1,0 +1,22 @@
+uuid: c4674902-96ac-4540-b7cf-4a1e3b22e030
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: plata_pathauto
+label: 'Plata pathauto'
+type: 'canonical_entities:node'
+pattern: '/plotur/[node:nid]'
+selection_criteria:
+  b1308ec9-4434-4767-96c0-0ad422b97767:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: b1308ec9-4434-4767-96c0-0ad422b97767
+    context_mapping:
+      node: node
+    bundles:
+      album: album
+selection_logic: and
+weight: -5
+relationships: {  }
