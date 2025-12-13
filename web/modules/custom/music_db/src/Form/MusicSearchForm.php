@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\Url;
 use Drupal\discogs_lookup\DiscogsLookupService;
+use Drupal\music_db\Helper\MusicSearchDataHelper;
 use Drupal\spotify_lookup\SpotifyLookupService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,14 +27,13 @@ class MusicSearchForm extends FormBase {
   protected SpotifyLookupService $spotifyLookup;
 
   /**
-   * The Discogs lookup service.
-   *
+   * Discogs lookup service.
    * @var \Drupal\discogs_lookup\DiscogsLookupService
    */
   protected DiscogsLookupService $discogsLookup;
 
   /**
-   * The tempstore factory.
+   *Ttempstore factory.
    *
    * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
    */
@@ -41,13 +41,9 @@ class MusicSearchForm extends FormBase {
 
   /**
    * Constructs a MusicSearchForm.
-   *
    * @param \Drupal\spotify_lookup\SpotifyLookupService $spotify_lookup
-   *   The Spotify lookup service.
    * @param \Drupal\discogs_lookup\DiscogsLookupService $discogs_lookup
-   *   The Discogs lookup service.
    * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
-   *   The tempstore factory.
    */
   public function __construct(SpotifyLookupService $spotify_lookup, DiscogsLookupService $discogs_lookup, PrivateTempStoreFactory $temp_store_factory) {
     $this->spotifyLookup = $spotify_lookup;
@@ -103,13 +99,11 @@ class MusicSearchForm extends FormBase {
       '#value' => $this->t('Search'),
     ];
 
-    // Display results if form was submitted and artist is selected.
     if ($form_state->isSubmitted()) {
       $query = $form_state->getValue('query');
       $entity_type = $form_state->getValue('entity_type');
-
-      if ($entity_type === 'artist' && !empty($query)) {
-        $form['results'] = $this->buildArtistResults($query, $form_state);
+      if (in_array($entity_type, ['artist', 'album', 'song']) && !empty($query)) {
+        $form['results'] = $this->buildResults($query, $entity_type, $form_state);
       }
     }
 
@@ -117,151 +111,101 @@ class MusicSearchForm extends FormBase {
   }
 
   /**
-   * Builds the artist search results from Spotify and Discogs.
-   *
-   * Searches both APIs and combines results, merging entries with matching
-   * artist names (case-insensitive).
-   *
-   * @param string $query
-   *   The search query.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   *
-   * @return array
-   *   The results render array.
+   * Builds search results from Spotify and Discogs.
    */
-  protected function buildArtistResults(string $query, FormStateInterface $form_state): array {
-    $build = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['music-db-search-results']],
-    ];
-
-    $artist_data = [];
-    $seen_names = [];
-
-    // Search Spotify.
+  protected function buildResults(string $query, string $entity_type, FormStateInterface $form_state): array {
+    $build = ['#type' => 'container', '#attributes' => ['class' => ['music-db-search-results']]];
+    
+    $spotify_methods = ['artist' => 'searchArtists', 'album' => 'searchAlbums', 'song' => 'searchSongs'];
+    $discogs_methods = ['artist' => 'searchArtists', 'album' => 'searchAlbums'];
+    $spotify_keys = ['artist' => 'artists', 'album' => 'albums', 'song' => 'tracks'];
+    
+    $spotify_method = $spotify_methods[$entity_type] ?? 'searchArtists';
+    $spotify_key = $spotify_keys[$entity_type] ?? 'artists';
+    $discogs_method = $discogs_methods[$entity_type] ?? NULL;
+    
+    $spotify_items = [];
     try {
-      $spotify_data = $this->spotifyLookup->search($query, 'artist', 20);
-      $spotify_artists = $spotify_data['artists']['items'] ?? [];
-
-      foreach ($spotify_artists as $artist) {
-        $name = $artist['name'] ?? '';
-        $spotify_id = $artist['id'] ?? '';
-        if (!$name) {
-          continue;
-        }
-
-        // Normalize name for duplicate checking.
-        $normalized_name = mb_strtolower(trim($name));
-        if (!isset($seen_names[$normalized_name])) {
-          $artist_data[] = [
-            'name' => $name,
-            'spotify_id' => $spotify_id,
-            'discogs_id' => '',
-          ];
-          $seen_names[$normalized_name] = TRUE;
+      $spotify_data = $this->spotifyLookup->$spotify_method($query, 20);
+      $items = $spotify_data[$spotify_key]['items'] ?? [];
+      foreach ($items as $item) {
+        if (!empty($item['name']) && !empty($item['id'])) {
+          $spotify_items[] = ['name' => $item['name'], 'id' => $item['id']];
         }
       }
     }
     catch (\Throwable $e) {
     }
 
-    // Search Discogs.
-    try {
-      $discogs_data = $this->discogsLookup->search($query, 'artist', 20);
-      $discogs_results = $discogs_data['results'] ?? [];
-
-      foreach ($discogs_results as $result) {
-        $name = $result['title'] ?? '';
-        $discogs_id = $result['id'] ?? '';
-        if (!$name) {
-          continue;
-        }
-
-        // Normalize name for duplicate checking.
-        $normalized_name = mb_strtolower(trim($name));
-
-        // Check if we already have this artist from Spotify.
-        $found = FALSE;
-        foreach ($artist_data as &$existing_artist) {
-          if (mb_strtolower(trim($existing_artist['name'])) === $normalized_name) {
-            // Update existing entry with Discogs ID.
-            $existing_artist['discogs_id'] = $discogs_id;
-            $found = TRUE;
-            break;
+    $discogs_items = [];
+    if ($discogs_method) {
+      try {
+        $discogs_data = $this->discogsLookup->$discogs_method($query, 20);
+        foreach ($discogs_data['results'] ?? [] as $result) {
+          if (!empty($result['title']) && !empty($result['id'])) {
+            $discogs_items[] = ['title' => $result['title'], 'id' => $result['id']];
           }
         }
-
-        // If not found, add as new entry.
-        if (!$found) {
-          $artist_data[] = [
-            'name' => $name,
-            'spotify_id' => '',
-            'discogs_id' => $discogs_id,
-          ];
-          $seen_names[$normalized_name] = TRUE;
-        }
+      }
+      catch (\Throwable $e) {
       }
     }
-    catch (\Throwable $e) {
-    }
 
-    if (empty($artist_data)) {
+    $data = MusicSearchDataHelper::combineResults($spotify_items, $discogs_items, $entity_type);
+    if (empty($data)) {
       $build['no_results'] = [
         '#type' => 'markup',
-        '#markup' => '<p><strong>' . $this->t('No artists found.') . '</strong></p>',
+        '#markup' => '<p><strong>' . $this->t('No @type found.', ['@type' => $entity_type . 's']) . '</strong></p>',
       ];
       return $build;
     }
 
-    // Store all artist data in form state.
-    $form_state->set('artist_data', $artist_data);
+    $form_state->set($entity_type . '_data', $data);
+    $labels = ['artist' => $this->t('Artist Name'), 'album' => $this->t('Album Name'), 'song' => $this->t('Song Name')];
+    $button_texts = ['artist' => $this->t('Add Selected Artist'), 'album' => $this->t('Add Selected Album'), 'song' => $this->t('Add Selected Song')];
+    
+    $label = $labels[$entity_type] ?? $this->t('Name');
+    $selected_key = 'selected_' . $entity_type;
+    $submit_method = 'submitSelected' . ucfirst($entity_type);
+    $button_text = $button_texts[$entity_type] ?? $this->t('Add Selected');
 
-    // Add a fieldset to group the results nicely.
     $build['results_fieldset'] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Search Results (@count found)', ['@count' => count($artist_data)]),
+      '#title' => $this->t('Search Results (@count found)', ['@count' => count($data)]),
       '#collapsible' => FALSE,
     ];
-
-    // Build a table for better organization.
     $build['results_fieldset']['results_table'] = [
       '#type' => 'table',
       '#header' => [
         ['data' => $this->t('Select'), 'style' => 'width: 50px; text-align: center;'],
-        ['data' => $this->t('Artist Name'), 'style' => 'width: auto;'],
+        ['data' => $label, 'style' => 'width: auto;'],
       ],
       '#empty' => $this->t('No results found.'),
     ];
 
-    foreach ($artist_data as $index => $data) {
+    foreach ($data as $index => $item) {
       $build['results_fieldset']['results_table'][$index]['select'] = [
         '#type' => 'radio',
         '#return_value' => json_encode([
-          'name' => $data['name'],
-          'spotify_id' => $data['spotify_id'] ?? '',
-          'discogs_id' => $data['discogs_id'] ?? '',
+          'name' => $item['name'],
+          'spotify_id' => $item['spotify_id'] ?? '',
+          'discogs_id' => $item['discogs_id'] ?? '',
         ]),
-        '#attributes' => ['title' => $this->t('Select @name', ['@name' => $data['name']])],
-        '#parents' => ['selected_artist'],
+        '#attributes' => ['title' => $this->t('Select @name', ['@name' => $item['name']])],
+        '#parents' => [$selected_key],
       ];
-
       $build['results_fieldset']['results_table'][$index]['name'] = [
         '#type' => 'markup',
-        '#markup' => '<strong>' . $this->t('@name', ['@name' => $data['name']]) . '</strong>',
+        '#markup' => '<strong>' . $this->t('@name', ['@name' => $item['name']]) . '</strong>',
       ];
     }
 
-    // Add submit button to process selected artist.
-    if (!empty($artist_data)) {
-      $build['results_fieldset']['add_selected'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Add Selected Artist'),
-        '#name' => 'add_selected',
-        '#submit' => ['::submitSelectedArtist'],
-      ];
-
-    }
+    $build['results_fieldset']['add_selected'] = [
+      '#type' => 'submit',
+      '#value' => $button_text,
+      '#name' => 'add_selected_' . $entity_type,
+      '#submit' => ['::' . $submit_method],
+    ];
 
     return $build;
   }
@@ -271,76 +215,91 @@ class MusicSearchForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $entity_type = $form_state->getValue('entity_type');
-
-    // Check if "Add Selected" button was clicked.
     $triggering_element = $form_state->getTriggeringElement();
     if (isset($triggering_element['#name']) && $triggering_element['#name'] === 'add_selected') {
-      // Handled by submitSelectedArtist.
       return;
     }
-
-    // For artist searches, rebuild the form to show results.
-    if ($entity_type === 'artist') {
+    if (isset($triggering_element['#name']) && strpos($triggering_element['#name'], 'add_selected_') === 0) {
+      return;
+    }
+    if (in_array($entity_type, ['artist', 'album', 'song'])) {
       $form_state->setRebuild();
       return;
     }
-
-    // For other entity types, redirect to their add forms.
-    $query = $form_state->getValue('query');
-    $routes = [
-      'album' => 'entity.album.add_form',
-      'song' => 'entity.song.add_form',
-    ];
-
-    $route_name = $routes[$entity_type] ?? 'entity.artist.add_form';
-
-    $url = Url::fromRoute($route_name, [], [
-      'query' => ['q' => $query],
-    ]);
-
-    $form_state->setRedirectUrl($url);
   }
 
   /**
    * Submit handler for adding selected artist.
    */
   public function submitSelectedArtist(array &$form, FormStateInterface $form_state): void {
-    // Get the selected radio button value.
-    $selected_value = $form_state->getValue('selected_artist');
+    $this->handleSelectedEntity('artist', 'music_db.data_select_artist', $form_state);
+  }
 
+  /**
+   * Submit handler for adding selected album.
+   */
+  public function submitSelectedAlbum(array &$form, FormStateInterface $form_state): void {
+    $this->handleSelectedEntity('album', 'music_db.data_select_album', $form_state);
+  }
+
+  /**
+   * Submit handler for adding selected song.
+   */
+  public function submitSelectedSong(array &$form, FormStateInterface $form_state): void {
+    $selected_value = $form_state->getValue('selected_song');
     if (empty($selected_value)) {
-      $this->messenger()->addWarning($this->t('Please select an artist.'));
+      $this->messenger()->addWarning($this->t('Please select a song.'));
       $form_state->setRebuild();
       return;
     }
 
-    // Decode the JSON data stored in the radio button return value.
-    $selected_artist = json_decode($selected_value, TRUE);
-
-    if (!$selected_artist || !isset($selected_artist['name'])) {
-      $this->messenger()->addError($this->t('Invalid artist data.'));
+    $selected = json_decode($selected_value, TRUE);
+    if (!$selected || !isset($selected['name'])) {
+      $this->messenger()->addError($this->t('Invalid song data.'));
       $form_state->setRebuild();
       return;
     }
 
-    // Store the selected artist data in tempstore for use in the next form.
     $tempstore = $this->tempStoreFactory->get('music_db');
-    $tempstore->set('selected_artist', [
-      'name' => $selected_artist['name'],
-      'spotify_id' => $selected_artist['spotify_id'] ?? '',
-      'discogs_id' => $selected_artist['discogs_id'] ?? '',
+    $tempstore->set('selected_song', [
+      'name' => $selected['name'],
+      'spotify_id' => $selected['spotify_id'] ?? '',
+      'discogs_id' => $selected['discogs_id'] ?? '',
     ]);
 
-    // Redirect to ArtistDataForm with the IDs as route parameters.
-    $spotify_id = $selected_artist['spotify_id'] ?? '';
-    $discogs_id = $selected_artist['discogs_id'] ?? '';
+    $this->messenger()->addMessage($this->t('Song selected: @name', ['@name' => $selected['name']]));
+    $form_state->setRebuild();
+  }
 
-    // Use 'none' as placeholder for empty IDs (route requires both parameters).
-    // ArtistDataForm should handle 'none' or empty values gracefully.
-    $spotify_id = !empty($spotify_id) ? $spotify_id : 'none';
-    $discogs_id = !empty($discogs_id) ? $discogs_id : 'none';
+  /**
+   * Handles selected entity submission.
+   */
+  protected function handleSelectedEntity(string $entity_type, string $route_name, FormStateInterface $form_state): void {
+    $selected_value = $form_state->getValue('selected_' . $entity_type);
+    if (empty($selected_value)) {
+      $this->messenger()->addWarning($this->t('Please select a @type.', ['@type' => $entity_type]));
+      $form_state->setRebuild();
+      return;
+    }
 
-    $form_state->setRedirect('music_db.data_select_artist', [
+    $selected = json_decode($selected_value, TRUE);
+    if (!$selected || !isset($selected['name'])) {
+      $this->messenger()->addError($this->t('Invalid @type data.', ['@type' => $entity_type]));
+      $form_state->setRebuild();
+      return;
+    }
+
+    $tempstore = $this->tempStoreFactory->get('music_db');
+    $tempstore->set('selected_' . $entity_type, [
+      'name' => $selected['name'],
+      'spotify_id' => $selected['spotify_id'] ?? '',
+      'discogs_id' => $selected['discogs_id'] ?? '',
+    ]);
+
+    $spotify_id = !empty($selected['spotify_id']) ? $selected['spotify_id'] : 'none';
+    $discogs_id = !empty($selected['discogs_id']) ? $selected['discogs_id'] : 'none';
+
+    $form_state->setRedirect($route_name, [
       'spotify_id' => $spotify_id,
       'discogs_id' => $discogs_id,
     ]);
