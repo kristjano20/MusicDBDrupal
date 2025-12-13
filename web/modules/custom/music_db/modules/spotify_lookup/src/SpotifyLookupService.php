@@ -21,7 +21,6 @@ class SpotifyLookupService {
 
   }
 
-
   public function search(string $query, string $type = 'track', ?int $limit = NULL): array {
     $token = $this->getAccessToken();
 
@@ -47,7 +46,6 @@ class SpotifyLookupService {
     return $data;
   }
 
-  
   public function searchArtists(string $query, ?int $limit = NULL): array {
     return $this->search($query, 'artist', $limit);
   }
@@ -58,9 +56,7 @@ class SpotifyLookupService {
   /**
    * Fetches artist information by Spotify ID.
    * @param string
-   *
    * @return array
-   *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function getArtist(string $spotifyId): array {
@@ -89,13 +85,8 @@ class SpotifyLookupService {
 
   /**
    * Fetches album information by Spotify ID.
-   *
    * @param string $spotifyId
-   *   The Spotify album ID.
-   *
    * @return array
-   *   Array containing album data.
-   *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function getAlbum(string $spotifyId): array {

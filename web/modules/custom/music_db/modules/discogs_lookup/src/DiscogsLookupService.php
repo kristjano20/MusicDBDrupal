@@ -54,15 +54,10 @@ class DiscogsLookupService
   }
 
   /**
-   * Searches for artists by name.
-   *
+   * Searches for artists by name
    * @param string $query
-   *   The search query.
    * @param int|null $limit
-   *   Optional limit for number of results.
-   *
    * @return array
-   *   Array containing search results.
    */
   public function searchArtists(string $query, ?int $limit = NULL): array {
     return $this->search($query, 'artist', $limit);
@@ -71,7 +66,7 @@ class DiscogsLookupService
   /**
    * Fetches artist information by Discogs ID.
    *
-   * @param string 
+   * @param string
    *
    * @return array
    *
@@ -112,8 +107,6 @@ class DiscogsLookupService
 
     $queryParams = [
       'q' => $query,
-      'type' => 'master',
-      'format' => 'Album',
       'per_page' => $limit,
       'page' => 1,
     ];
@@ -133,19 +126,12 @@ class DiscogsLookupService
   }
 
   /**
-   * Fetches album (master release) information by Discogs ID.
-   *
+   * Fetches album information by Discogs ID
    * @param string $discogsId
-   *   The Discogs master ID.
-   *
    * @return array
-   *   Array containing master release data.
-   *
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function getAlbum(string $discogsId): array {
-    $baseUrl = 'https://api.discogs.com/masters/' . $discogsId;
-
     $token = $this->config->get('token');
 
     $headers = [
@@ -156,13 +142,27 @@ class DiscogsLookupService
       $headers['Authorization'] = 'Discogs token=' . trim($token);
     }
 
-    $response = $this->httpClient->get($baseUrl, [
-      'headers' => $headers,
-    ]);
-
-    $data = json_decode($response->getBody()->getContents(), TRUE);
-
-    return $data;
+    // Try master endpoint first
+    try {
+      $baseUrl = 'https://api.discogs.com/masters/' . $discogsId;
+      $response = $this->httpClient->get($baseUrl, [
+        'headers' => $headers,
+      ]);
+      $data = json_decode($response->getBody()->getContents(), TRUE);
+      return $data;
+    }
+    catch (\GuzzleHttp\Exception\ClientException $e) {
+      // try release endpoint
+      if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
+        $baseUrl = 'https://api.discogs.com/releases/' . $discogsId;
+        $response = $this->httpClient->get($baseUrl, [
+          'headers' => $headers,
+        ]);
+        $data = json_decode($response->getBody()->getContents(), TRUE);
+        return $data;
+      }
+      throw $e;
+    }
   }
 }
 
