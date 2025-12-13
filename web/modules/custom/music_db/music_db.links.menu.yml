@@ -25,6 +25,13 @@ music_db.admin.add_artist:
   parent: music_db.admin.artists
   weight: 1
 
+music_db.admin.custom_artists:
+  title: 'Custom Artist list'
+  route_name: music_db.custom_artists
+  parent: music_db.admin
+  weight: -40
+
+
 # ================================
 # ALBUMS
 # ================================
@@ -42,6 +49,14 @@ music_db.admin.add_album:
   parent: music_db.admin.albums
   weight: 11
 
+music_db.admin.custom_albums:
+  title: 'Custom Album list'
+  description: 'View all albums created in the system'
+  route_name: music_db.custom_albums
+  parent: music_db.admin
+  weight: -39
+
+
 # ================================
 # SONGS
 # ================================
@@ -58,6 +73,13 @@ music_db.admin.add_song:
   route_name: entity.song.add_form
   parent: music_db.admin.songs
   weight: 21
+
+music_db.admin.custom_songs:
+  title: 'Custom Song list'
+  description: 'View all songs created in the system'
+  route_name: music_db.custom_songs
+  parent: music_db.admin
+  weight: -38
 
 
 # ----------------------------------------------------------
@@ -87,3 +109,17 @@ music_db.quick_add.song:
   route_name: entity.song.add_form
   parent: system.admin_content_add
   weight: 7
+
+
+
+# ----------------------------------------------------------
+# MUSIC SEARCH MENU
+# ----------------------------------------------------------
+
+music_db.admin.music_search:
+  title: 'Music Search'
+  description: 'Search Spotify and Discogs, then create an Artist/Album/Song'
+  route_name: music_db.search
+  parent: music_db.admin
+  weight: -50
+
