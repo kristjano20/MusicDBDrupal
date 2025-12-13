@@ -17,14 +17,23 @@ use Drupal\media\Entity\Media;
  */
 class ArtistDataForm extends FormBase {
 
+  /** @var SpotifyLookupService  */
   protected $spotifyService;
+
+  /** @var DiscogsLookupService  */
   protected $discogsService;
 
+  /**
+   * @inheritDoc
+   */
   public function __construct(SpotifyLookupService $spotifyService, DiscogsLookupService $discogsService) {
     $this->spotifyService = $spotifyService;
     $this->discogsService = $discogsService;
   }
 
+  /**
+   * @inheritDoc
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('spotify_lookup.search'),
@@ -32,6 +41,9 @@ class ArtistDataForm extends FormBase {
     );
   }
 
+  /**
+   * @inheritDoc
+   */
   public function getFormId() {
     return 'music_db_artist_data_form';
   }
@@ -68,12 +80,13 @@ class ArtistDataForm extends FormBase {
     // Persist the fetched API data so submitForm() can access it.
     $form_state->set('spotify_data', $spotify_data);
     $form_state->set('discogs_data', $discogs_data);
+
     // Also persist the incoming ids.
     $form_state->set('spotify_id', $spotify_id);
     $form_state->set('discogs_id', $discogs_id);
 
     // --------------------------------------------------------------------
-    // SECTION: NAME (details element)
+    // SECTION: NAME
     // --------------------------------------------------------------------
     $form['name_section'] = [
       '#type' => 'details',
@@ -81,40 +94,19 @@ class ArtistDataForm extends FormBase {
       '#open' => TRUE,
     ];
 
-    // Hidden radios element to store final value (kept for storage).
     $form['name_section']['name_source'] = [
       '#type' => 'radios',
-      '#options' => ['spotify' => '', 'discogs' => ''],
+      '#title' => $this->t('Choose name source'),
+      '#options' => [
+        'spotify' => $this->t('<strong>Spotify: @name</strong>', [
+          '@name' => $spotify_data['name'] ?? 'N/A',
+        ]),
+        'discogs' => $this->t('<strong>Discogs: @name</strong>', [
+          '@name' => $discogs_data['name'] ?? 'N/A',
+        ]),
+      ],
       '#default_value' => 'spotify',
-      '#attributes' => ['class' => ['hidden']],
-      '#theme_wrappers' => [], // optional: prevent default wrapper if you hide it with CSS.
-    ];
-
-    $form['name_section']['spotify_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'spotify',
-        '#parents' => ['name_source'],
-        '#attributes' => ['checked' => 'checked'], // visual default
-      ],
-      'data' => [
-        '#markup' => '<strong>Spotify:</strong> ' . ($spotify_data['name'] ?? 'N/A'),
-      ],
-    ];
-
-    $form['name_section']['discogs_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'discogs',
-        '#parents' => ['name_source'],
-      ],
-      'data' => [
-        '#markup' => '<strong>Discogs:</strong> ' . ($discogs_data['name'] ?? 'N/A'),
-      ],
+      '#escape' => FALSE,
     ];
 
     // --------------------------------------------------------------------
@@ -123,87 +115,27 @@ class ArtistDataForm extends FormBase {
     $form['image_section'] = [
       '#type' => 'details',
       '#title' => $this->t('Image'),
-      '#attributes' => ['class' => ['select-section']],
       '#open' => FALSE,
     ];
 
-    // Hidden field to store selection (instead of radios).
-    $form['image_section']['image_source'] = [
-      '#type' => 'hidden',
-      '#default_value' => 'none',
-    ];
-
-    $spotify_img = !empty($spotify_data['images'][0]['url'])
+    $spotify_img_markup = !empty($spotify_data['images'][0]['url'])
       ? '<img src="' . $spotify_data['images'][0]['url'] . '" width="300" />'
-      : 'No image';
+      : '<em>No image available</em>';
 
-    $discogs_img = !empty($discogs_data['images'][0]['uri'])
+    $discogs_img_markup = !empty($discogs_data['images'][0]['uri'])
       ? '<img src="' . $discogs_data['images'][0]['uri'] . '" width="300" />'
-      : 'No image';
+      : '<em>No image available</em>';
 
-    // Add a small JS that will keep the hidden field in sync with your manual radios.
-    $form['#attached']['library'][] = 'core/drupal'; // ensure core drupal behaviors present
-    $form['#attached']['html_head'][] = [
-      [
-        '#tag' => 'script',
-        '#value' => "
-          (function () {
-            document.addEventListener('DOMContentLoaded', function () {
-              document.querySelectorAll('.image-option-radio').forEach(function(el) {
-                el.addEventListener('change', function() {
-                  var hidden = document.querySelector('[name=\"image_source\"]');
-                  if (hidden) {
-                    hidden.value = this.value;
-                  }
-                });
-              });
-            });
-          })();
-        ",
+    $form['image_section']['image_source'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Choose image source'),
+      '#options' => [
+        'none' => '<strong>Don’t save an image</strong>',
+        'spotify' => '<strong>Spotify</strong><br>' . $spotify_img_markup,
+        'discogs' => '<strong>Discogs</strong><br>' . $discogs_img_markup,
       ],
-      'music_db_image_radio_sync',
-    ];
-
-    // None row
-    $form['image_section']['none_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'none',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'label' => [
-        '#markup' => '<em>Don\'t save image</em>',
-      ],
-    ];
-
-    // Spotify row
-    $form['image_section']['spotify_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'spotify',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'data' => [
-        '#markup' => '<strong>Spotify</strong> — ' . $spotify_img,
-      ],
-    ];
-
-    // Discogs row
-    $form['image_section']['discogs_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'discogs',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'data' => [
-        '#markup' => '<strong>Discogs</strong><br>' . $discogs_img,
-      ],
+      '#default_value' => 'none',
+      '#escape' => FALSE,
     ];
 
     // --------------------------------------------------------------------
@@ -215,65 +147,19 @@ class ArtistDataForm extends FormBase {
       '#open' => FALSE,
     ];
 
-    // Hidden field to store bio selection.
+    $discogs_bio_markup = !empty($discogs_data['profile'])
+      ? nl2br(htmlspecialchars($discogs_data['profile']))
+      : '<em>No bio available from Discogs.</em>';
+
     $form['bio_section']['bio_source'] = [
-      '#type' => 'hidden',
+      '#type' => 'radios',
+      '#title' => $this->t('Choose bio source'),
+      '#options' => [
+        'none' => '<strong>Don’t save a bio</strong>',
+        'discogs' => '<strong>Discogs bio</strong><br>' . $discogs_bio_markup,
+      ],
       '#default_value' => 'none',
-    ];
-
-    $discogs_bio_raw = $discogs_data['profile'] ?? '';
-    // Strip discogs markup to make it readable in preview:
-    $discogs_bio_clean = preg_replace('/\[(?:[a-z]=?)?[^\]]+\]/i', '', $discogs_bio_raw);
-    $discogs_bio_clean = trim($discogs_bio_clean);
-    $discogs_bio_rendered = $discogs_bio_clean ? nl2br(htmlspecialchars($discogs_bio_clean)) : '<em>No bio available from Discogs.</em>';
-
-    // Add small JS for bio radios to update the hidden field.
-    $form['#attached']['html_head'][] = [
-      [
-        '#tag' => 'script',
-        '#value' => "
-          (function () {
-            document.addEventListener('DOMContentLoaded', function () {
-              document.querySelectorAll('.bio-option-radio').forEach(function(el) {
-                el.addEventListener('change', function() {
-                  var hidden = document.querySelector('[name=\"bio_source\"]');
-                  if (hidden) { hidden.value = this.value; }
-                });
-              });
-            });
-          })();
-        ",
-      ],
-      'music_db_bio_radio_sync',
-    ];
-
-    $form['bio_section']['none_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'none',
-        '#attributes' => ['class' => ['bio-option-radio']],
-      ],
-      'label' => [
-        '#markup' => '<strong>Don\'t save bio</strong>',
-      ],
-    ];
-
-    $form['bio_section']['discogs_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'discogs',
-        '#attributes' => ['class' => ['bio-option-radio']],
-      ],
-      'label' => [
-        '#markup' => '<strong>Discogs bio</strong>',
-      ],
-      'data' => [
-        '#markup' => '<div class=\"bio-preview\">' . $discogs_bio_rendered . '</div>',
-      ],
+      '#escape' => FALSE,
     ];
 
     // --------------------------------------------------------------------
@@ -281,7 +167,7 @@ class ArtistDataForm extends FormBase {
     // --------------------------------------------------------------------
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Save Selected Data'),
+      '#value' => $this->t('Save and Create Artist'),
     ];
 
     return $form;
@@ -381,82 +267,78 @@ class ArtistDataForm extends FormBase {
   }
 
   /**
-   * Store selected values.
+   * Create a new artist with the selected data and the id's from spotify and discogs
    */
-public function submitForm(array &$form, FormStateInterface $form_state) {
-  // Gather selections (fall back to defaults).
-  $name_source  = $form_state->getValue('name_source') ?? 'spotify';
-  $image_source = $form_state->getValue('image_source') ?? 'none';
-  $bio_source   = $form_state->getValue('bio_source') ?? 'none';
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Get the choices
+    $name_source  = $form_state->getValue('name_source') ?? 'spotify';
+    $image_source = $form_state->getValue('image_source') ?? 'none';
+    $bio_source   = $form_state->getValue('bio_source') ?? 'none';
 
-  // Get persisted API data and IDs that were stored in buildForm().
-  $spotify_id   = $form_state->get('spotify_id');
-  $discogs_id   = $form_state->get('discogs_id');
-  $spotify_data = $form_state->get('spotify_data') ?? [];
-  $discogs_data = $form_state->get('discogs_data') ?? [];
+    // Get persisted API data and IDs that were stored in buildForm().
+    $spotify_id   = $form_state->get('spotify_id');
+    $discogs_id   = $form_state->get('discogs_id');
+    $spotify_data = $form_state->get('spotify_data') ?? [];
+    $discogs_data = $form_state->get('discogs_data') ?? [];
 
-  // Selected name
-  $selected_name = NULL;
-  if ($name_source === 'spotify') {
-    $selected_name = $spotify_data['name'] ?? NULL;
-  } elseif ($name_source === 'discogs') {
-    $selected_name = $discogs_data['name'] ?? NULL;
-  }
-
-  if (empty($selected_name)) {
-    $this->messenger()->addError($this->t('Please select a name before saving.'));
-    return;
-  }
-
-  // Selected image URL (if any)
-  $selected_image_url = NULL;
-  if ($image_source === 'spotify') {
-    $selected_image_url = $spotify_data['images'][0]['url'] ?? NULL;
-  } elseif ($image_source === 'discogs') {
-    $selected_image_url = $discogs_data['images'][0]['uri'] ?? NULL;
-  }
-
-  // Selected bio
-  $selected_bio = NULL;
-  if ($bio_source === 'discogs') {
-    $selected_bio = $discogs_data['profile'] ?? NULL;
-    if ($selected_bio) {
-      // Optionally strip internal Discogs tags:
-      $selected_bio = trim(preg_replace('/\[(?:[a-z]=?)?[^\]]+\]/i', '', $selected_bio));
+    // Selected name
+    $selected_name = NULL;
+    if ($name_source === 'spotify') {
+      $selected_name = $spotify_data['name'] ?? NULL;
+    } elseif ($name_source === 'discogs') {
+      $selected_name = $discogs_data['name'] ?? NULL;
     }
-  }
 
-  // Build the values for the entity.
-  $values = [
-    'name' => $selected_name,
-    'spotify_id' => $spotify_id ?: '',
-    'discogs_id' => $discogs_id ?: '',
-    'about' => $selected_bio ?: '',
-  ];
-
-  // Create entity storage and entity.
-  $storage = \Drupal::entityTypeManager()->getStorage('artist');
-  /** @var \Drupal\music_db\Entity\Artist $entity */
-  $entity = $storage->create($values);
-
-  // If an image was chosen, download and create a Media entity and set photo.
-  if (!empty($selected_image_url)) {
-    $media_id = $this->downloadImageToMedia($selected_image_url, $selected_name);
-    if ($media_id) {
-      // entity reference field expects array with target_id for base fields.
-      $entity->set('photo', ['target_id' => $media_id]);
-    } else {
-      \Drupal::logger('music_db')->warning('Image chosen but failed to create media from URL: @url', ['@url' => $selected_image_url]);
-      // Not fatal — continue saving without photo.
+    if (empty($selected_name)) {
+      $this->messenger()->addError($this->t('Please select a name before saving.'));
+      return;
     }
+
+    // Selected image URL (if any)
+    $selected_image_url = NULL;
+    if ($image_source === 'spotify') {
+      $selected_image_url = $spotify_data['images'][0]['url'] ?? NULL;
+    } elseif ($image_source === 'discogs') {
+      $selected_image_url = $discogs_data['images'][0]['uri'] ?? NULL;
+    }
+
+    // Selected bio
+    $selected_bio = NULL;
+    if ($bio_source === 'discogs') {
+      $selected_bio = $discogs_data['profile'] ?? NULL;
+    }
+
+    // Build the values for the entity.
+    $values = [
+      'name' => $selected_name,
+      'spotify_id' => $spotify_id ?: '',
+      'discogs_id' => $discogs_id ?: '',
+      'about' => $selected_bio ?: '',
+    ];
+
+    // Create entity storage and entity.
+    $storage = \Drupal::entityTypeManager()->getStorage('artist');
+    /** @var \Drupal\music_db\Entity\Artist $entity */
+    $entity = $storage->create($values);
+
+    // If an image was chosen, download and create a Media entity and set photo.
+    if (!empty($selected_image_url)) {
+      $media_id = $this->downloadImageToMedia($selected_image_url, $selected_name);
+      if ($media_id) {
+        // entity reference field expects array with target_id for base fields.
+        $entity->set('photo', ['target_id' => $media_id]);
+      } else {
+        $this->messenger()->addError($this->t('Image download failed, no image saved.'));
+      }
+    }
+
+    $entity->save();
+
+    $this->messenger()->addStatus($this->t('Artist %name created.', [
+      '%name' => $entity->label(),
+    ]));
+
+    // Redirect to the newly created entity.
+    $form_state->setRedirectUrl($entity->toUrl());
   }
-
-  // Save entity.
-  $entity->save();
-
-  $this->messenger()->addStatus($this->t('Artist %name created.', ['%name' => $entity->label()]));
-  \Drupal::logger('music_db')->notice('Artist created: @id / @label', ['@id' => $entity->id(), '@label' => $entity->label()]);
-}
-
-
 }
