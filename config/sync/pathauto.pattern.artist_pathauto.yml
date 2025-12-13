@@ -1,0 +1,22 @@
+uuid: b488daf6-f299-43e5-b6de-db426eced840
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: artist_pathauto
+label: 'Flytjandi pathauto'
+type: 'canonical_entities:node'
+pattern: '/flytjendur/[node:nid]'
+selection_criteria:
+  2a897b5b-f2d2-4ca0-ac8a-260b9ec03cb6:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 2a897b5b-f2d2-4ca0-ac8a-260b9ec03cb6
+    context_mapping:
+      node: node
+    bundles:
+      artist: artist
+selection_logic: and
+weight: -5
+relationships: {  }

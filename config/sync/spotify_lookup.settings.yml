@@ -1,0 +1,5 @@
+client_id: 56f30d627a124dd8b8cdf938c2d21400
+client_secret: bcd84432c4c547609e003d5f2a51d30c
+api_uri: 'https://api.spotify.com/v1'
+cache_lifetime: 86400
+max_hits: 20

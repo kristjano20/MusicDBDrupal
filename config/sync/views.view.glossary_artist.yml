@@ -330,6 +330,7 @@ display:
         type: normal
         title: Flytjendur
         weight: -49
+        enabled: false
         menu_name: main
         parent: ''
     cache_metadata:

@@ -75,7 +75,7 @@ third_party_settings:
             configuration:
               id: 'field_block:node:album:field_year_published'
               label: Útgáfuár
-              label_display: visible
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity

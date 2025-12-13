@@ -1,0 +1,22 @@
+uuid: fa0e9813-0b9e-465b-978a-e4f1d712ebfa
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: song_pathauto
+label: 'Lag pathauto'
+type: 'canonical_entities:node'
+pattern: '/lag/[node:nid]'
+selection_criteria:
+  931e9503-445f-4444-b0c0-fa79f237c053:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 931e9503-445f-4444-b0c0-fa79f237c053
+    context_mapping:
+      node: node
+    bundles:
+      song: song
+selection_logic: and
+weight: -5
+relationships: {  }

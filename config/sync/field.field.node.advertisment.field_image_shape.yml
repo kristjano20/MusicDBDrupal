@@ -13,7 +13,7 @@ entity_type: node
 bundle: advertisment
 label: Lögun
 description: 'Hér er hægt að skilgreina hver lögun myndarinnar er.'
-required: false
+required: true
 translatable: false
 default_value:
   -
