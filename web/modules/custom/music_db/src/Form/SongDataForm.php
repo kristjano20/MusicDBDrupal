@@ -216,6 +216,7 @@ class SongDataForm extends FormBase
     // DEBUG
     // --------------------------------------------------------------------
 
+    /*
     $form['debug_spotify'] = [
       '#type' => 'details',
       '#title' => $this->t('Spotify data (debug)'),
@@ -229,7 +230,7 @@ class SongDataForm extends FormBase
       '#open' => FALSE,
       '#markup' => '<pre>' . Html::escape(print_r($discogs_data, TRUE)) . '</pre>',
     ];
-
+    */
     // --------------------------------------------------------------------
     // SUBMIT
     // --------------------------------------------------------------------
