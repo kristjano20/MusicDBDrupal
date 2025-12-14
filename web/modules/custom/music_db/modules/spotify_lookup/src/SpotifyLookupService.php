@@ -108,6 +108,25 @@ class SpotifyLookupService {
     return $data;
   }
 
+  public function getSong(string $spotifyId): array {
+    $token = $this->getAccessToken();
+
+    $baseUrl = $this->config->get('api_uri') ?: 'https://api.spotify.com/v1';
+
+    $response = $this->httpClient->get(
+      $baseUrl . '/tracks/' . $spotifyId,
+      [
+        'headers' => [
+          'Authorization' => 'Bearer ' . $token,
+          ],
+      ]
+    );
+
+    $data = json_decode($response->getBody()->getContents(), TRUE);
+
+    return $data;
+  }
+
   protected function getAccessToken(): string {
     if ($this->accessToken) {
       return $this->accessToken;

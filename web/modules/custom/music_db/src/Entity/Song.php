@@ -81,6 +81,48 @@ class Song extends ContentEntityBase {
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['artist'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Artist'))
+      ->setSettings(['max_length' => 255])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 11,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 11,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['album'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Album'))
+      ->setSettings(['max_length' => 255])
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 12,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'weight' => 12,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['track_no'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Track number'))
+      ->setDescription(t('Track number on the album.'))
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+        'weight' => 13,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'number_integer',
+        'weight' => 13,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['spotify_id'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Spotify ID'))
       ->setSettings(['max_length' => 255])

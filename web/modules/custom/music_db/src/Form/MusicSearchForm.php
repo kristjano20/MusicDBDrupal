@@ -338,11 +338,14 @@ class MusicSearchForm extends FormBase {
     $tempstore->set('selected_song', [
       'name' => $selected['name'],
       'spotify_id' => $selected['spotify_id'] ?? '',
-      'discogs_id' => $selected['discogs_id'] ?? '',
+      #'discogs_id' => $selected['discogs_id'] ?? '',
     ]);
 
     $this->messenger()->addMessage($this->t('Song selected: @name', ['@name' => $selected['name']]));
-    $form_state->setRebuild();
+    $form_state->setRedirect('music_db.data_select_song', [
+      'spotify_id' => $selected['spotify_id'] ?? 'none',
+      #'discogs_id' => $selected['discogs_id'] ?? 'none',
+    ]);
   }
 
   /**
