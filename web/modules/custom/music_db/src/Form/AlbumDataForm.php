@@ -16,14 +16,23 @@ use Drupal\media\Entity\Media;
  */
 class AlbumDataForm extends FormBase {
 
+  /** @var SpotifyLookupService  */
   protected $spotifyService;
+
+  /** @var DiscogsLookupService  */
   protected $discogsService;
 
+  /**
+   * @inheritDoc
+   */
   public function __construct(SpotifyLookupService $spotifyService, DiscogsLookupService $discogsService) {
     $this->spotifyService = $spotifyService;
     $this->discogsService = $discogsService;
   }
 
+  /**
+   * @inheritDoc
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('spotify_lookup.search'),
@@ -31,6 +40,9 @@ class AlbumDataForm extends FormBase {
     );
   }
 
+  /**
+   * @inheritDoc
+   */
   public function getFormId() {
     return 'music_db_album_data_form';
   }
@@ -66,51 +78,33 @@ class AlbumDataForm extends FormBase {
     // Persist the fetched API data so submitForm() can access it.
     $form_state->set('spotify_data', $spotify_data);
     $form_state->set('discogs_data', $discogs_data);
+
+    // Also persist the incoming ids.
     $form_state->set('spotify_id', $spotify_id);
     $form_state->set('discogs_id', $discogs_id);
 
     // --------------------------------------------------------------------
-    // SECTION: NAME (details element)
+    // SECTION: NAME
     // --------------------------------------------------------------------
     $form['name_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Name'),
+      '#title' => $this->t('Title'),
       '#open' => TRUE,
     ];
 
     $form['name_section']['name_source'] = [
       '#type' => 'radios',
-      '#options' => ['spotify' => '', 'discogs' => ''],
+      '#title' => $this->t('Choose name source'),
+      '#options' => [
+        'spotify' => $this->t('<strong>Spotify: @name</strong>', [
+          '@name' => $spotify_data['name'] ?? 'N/A',
+        ]),
+        'discogs' => $this->t('<strong>Discogs: @name</strong>', [
+          '@name' => $discogs_data['title'] ?? 'N/A',
+        ]),
+      ],
       '#default_value' => 'spotify',
-      '#attributes' => ['class' => ['hidden']],
-      '#theme_wrappers' => [],
-    ];
-
-    $form['name_section']['spotify_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'spotify',
-        '#parents' => ['name_source'],
-        '#attributes' => ['checked' => 'checked'],
-      ],
-      'data' => [
-        '#markup' => '<strong>Spotify:</strong> ' . ($spotify_data['name'] ?? 'N/A'),
-      ],
-    ];
-
-    $form['name_section']['discogs_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'discogs',
-        '#parents' => ['name_source'],
-      ],
-      'data' => [
-        '#markup' => '<strong>Discogs:</strong> ' . ($discogs_data['title'] ?? $discogs_data['name'] ?? 'N/A'),
-      ],
+      '#escape' => FALSE,
     ];
 
     // --------------------------------------------------------------------
@@ -118,87 +112,28 @@ class AlbumDataForm extends FormBase {
     // --------------------------------------------------------------------
     $form['image_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Album Cover'),
-      '#attributes' => ['class' => ['select-section']],
+      '#title' => $this->t('Image'),
       '#open' => FALSE,
     ];
 
-    $form['image_section']['image_source'] = [
-      '#type' => 'hidden',
-      '#default_value' => 'none',
-    ];
-
-    $spotify_img = !empty($spotify_data['images'][0]['url'])
+    $spotify_img_markup = !empty($spotify_data['images'][0]['url'])
       ? '<img src="' . $spotify_data['images'][0]['url'] . '" width="300" />'
-      : 'No image';
+      : '<em>No image available</em>';
 
-    $discogs_img = 'No image';
-    if (!empty($discogs_data['images'][0])) {
-      $discogs_image_url = $discogs_data['images'][0]['uri'] ?? $discogs_data['images'][0]['resource_url'] ?? NULL;
-      if ($discogs_image_url) {
-        $discogs_img = '<img src="' . $discogs_image_url . '" width="300" />';
-      }
-    }
+    $discogs_img_markup = !empty($discogs_data['images'][0]['uri'])
+      ? '<img src="' . $discogs_data['images'][0]['uri'] . '" width="300" />'
+      : '<em>No image available</em>';
 
-    $form['#attached']['library'][] = 'core/drupal';
-    $form['#attached']['html_head'][] = [
-      [
-        '#tag' => 'script',
-        '#value' => "
-          (function () {
-            document.addEventListener('DOMContentLoaded', function () {
-              document.querySelectorAll('.image-option-radio').forEach(function(el) {
-                el.addEventListener('change', function() {
-                  var hidden = document.querySelector('[name=\"image_source\"]');
-                  if (hidden) {
-                    hidden.value = this.value;
-                  }
-                });
-              });
-            });
-          })();
-        ",
+    $form['image_section']['image_source'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Choose image source'),
+      '#options' => [
+        'none' => '<strong>Don’t save an image</strong>',
+        'spotify' => '<strong>Spotify</strong><br>' . $spotify_img_markup,
+        'discogs' => '<strong>Discogs</strong><br>' . $discogs_img_markup,
       ],
-      'music_db_image_radio_sync',
-    ];
-
-    $form['image_section']['none_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'none',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'label' => [
-        '#markup' => '<em>Don\'t save image</em>',
-      ],
-    ];
-
-    $form['image_section']['spotify_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'spotify',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'data' => [
-        '#markup' => '<strong>Spotify</strong> — ' . $spotify_img,
-      ],
-    ];
-
-    $form['image_section']['discogs_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'discogs',
-        '#attributes' => ['class' => ['image-option-radio']],
-      ],
-      'data' => [
-        '#markup' => '<strong>Discogs</strong><br>' . $discogs_img,
-      ],
+      '#default_value' => 'none',
+      '#escape' => FALSE,
     ];
 
     // --------------------------------------------------------------------
@@ -211,74 +146,20 @@ class AlbumDataForm extends FormBase {
     ];
 
     $form['release_section']['release_source'] = [
-      '#type' => 'hidden',
+      '#type' => 'radios',
+      '#title' => $this->t('Choose name source'),
+      '#options' => [
+        'none' => '<strong>Don\'t save release date</strong>',
+        'spotify' => $this->t('<strong>Spotify: @name</strong>', [
+          '@name' => $spotify_data['release_date'] ?? 'N/A',
+        ]),
+        'discogs' => $this->t('<strong>Discogs: @name</strong>', [
+          '@name' => $discogs_data['year'] ?? $discogs_data['realeased'] ?? 'N/A',
+        ]),
+      ],
       '#default_value' => 'none',
+      '#escape' => FALSE,
     ];
-
-    $spotify_release = $spotify_data['release_date'] ?? '';
-    $discogs_release = $discogs_data['year'] ?? $discogs_data['released'] ?? '';
-
-    $form['#attached']['html_head'][] = [
-      [
-        '#tag' => 'script',
-        '#value' => "
-          (function () {
-            document.addEventListener('DOMContentLoaded', function () {
-              document.querySelectorAll('.release-option-radio').forEach(function(el) {
-                el.addEventListener('change', function() {
-                  var hidden = document.querySelector('[name=\"release_source\"]');
-                  if (hidden) { hidden.value = this.value; }
-                });
-              });
-            });
-          })();
-        ",
-      ],
-      'music_db_release_radio_sync',
-    ];
-
-    $form['release_section']['none_row'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['source-row']],
-      'radio' => [
-        '#type' => 'radio',
-        '#return_value' => 'none',
-        '#attributes' => ['class' => ['release-option-radio']],
-      ],
-      'label' => [
-        '#markup' => '<strong>Don\'t save release date</strong>',
-      ],
-    ];
-
-    if ($spotify_release) {
-      $form['release_section']['spotify_row'] = [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['source-row']],
-        'radio' => [
-          '#type' => 'radio',
-          '#return_value' => 'spotify',
-          '#attributes' => ['class' => ['release-option-radio']],
-        ],
-        'data' => [
-          '#markup' => '<strong>Spotify:</strong> ' . $spotify_release,
-        ],
-      ];
-    }
-
-    if ($discogs_release) {
-      $form['release_section']['discogs_row'] = [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['source-row']],
-        'radio' => [
-          '#type' => 'radio',
-          '#return_value' => 'discogs',
-          '#attributes' => ['class' => ['release-option-radio']],
-        ],
-        'data' => [
-          '#markup' => '<strong>Discogs:</strong> ' . $discogs_release,
-        ],
-      ];
-    }
 
     // --------------------------------------------------------------------
     // SUBMIT
@@ -390,15 +271,18 @@ class AlbumDataForm extends FormBase {
    * Store selected values.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Get the choices
     $name_source = $form_state->getValue('name_source') ?? 'spotify';
     $image_source = $form_state->getValue('image_source') ?? 'none';
     $release_source = $form_state->getValue('release_source') ?? 'none';
 
+    // Get persisted API data and IDs that were stored in buildForm()
     $spotify_id = $form_state->get('spotify_id');
     $discogs_id = $form_state->get('discogs_id');
     $spotify_data = $form_state->get('spotify_data') ?? [];
     $discogs_data = $form_state->get('discogs_data') ?? [];
 
+    // Selected title
     $selected_name = NULL;
     if ($name_source === 'spotify') {
       $selected_name = $spotify_data['name'] ?? NULL;
@@ -411,6 +295,7 @@ class AlbumDataForm extends FormBase {
       return;
     }
 
+    // Selected image URL (if any)
     $selected_image_url = NULL;
     if ($image_source === 'spotify') {
       $selected_image_url = $spotify_data['images'][0]['url'] ?? NULL;
@@ -420,6 +305,7 @@ class AlbumDataForm extends FormBase {
       }
     }
 
+    // Selected release date (if any)
     $selected_release = NULL;
     if ($release_source === 'spotify') {
       $selected_release = $spotify_data['release_date'] ?? NULL;
@@ -427,6 +313,7 @@ class AlbumDataForm extends FormBase {
       $selected_release = $discogs_data['year'] ?? $discogs_data['released'] ?? NULL;
     }
 
+    // Build the values for the entity.
     $values = [
       'title' => $selected_name,
       'spotify_id' => $spotify_id ?: '',
@@ -441,23 +328,30 @@ class AlbumDataForm extends FormBase {
       }
     }
 
+    // Create entity storage and entity.
     $storage = \Drupal::entityTypeManager()->getStorage('album');
     /** @var \Drupal\music_db\Entity\Album $entity */
     $entity = $storage->create($values);
 
+    // If an image was chosen, download and create a Media entity and set photo.
     if (!empty($selected_image_url)) {
       $media_id = $this->downloadImageToMedia($selected_image_url, $selected_name);
       if ($media_id) {
+        // entity reference field expects array with target_id for base fields.
         $entity->set('album_cover', ['target_id' => $media_id]);
       } else {
-        \Drupal::logger('music_db')->warning('Image chosen but failed to create media from URL: @url', ['@url' => $selected_image_url]);
+        $this->messenger()->addError($this->t('Image download failed, no image saved.'));
       }
     }
 
     $entity->save();
 
-    $this->messenger()->addStatus($this->t('Album %name created.', ['%name' => $entity->label()]));
-    \Drupal::logger('music_db')->notice('Album created: @id / @label', ['@id' => $entity->id(), '@label' => $entity->label()]);
+    $this->messenger()->addStatus($this->t('Album %title created.', [
+      '%title' => $entity->label(),
+    ]));
+
+    // Redirect to the newly created entity.
+    $form_state->setRedirectUrl($entity->toUrl());
   }
 
 }

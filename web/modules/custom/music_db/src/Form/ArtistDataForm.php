@@ -175,14 +175,6 @@ class ArtistDataForm extends FormBase {
 
   /**
    * Download a remote image, save it to public:// and create a Media image entity.
-   *
-   * @param string $url
-   *   Remote image URL.
-   * @param string $name
-   *   Name/label to use for the Media (used for filename and alt).
-   *
-   * @return int|null
-   *   Media entity ID on success, or NULL on failure.
    */
   protected function downloadImageToMedia(string $url, string $name): ?int {
     if (empty($url)) {
@@ -302,7 +294,7 @@ class ArtistDataForm extends FormBase {
       $selected_image_url = $discogs_data['images'][0]['uri'] ?? NULL;
     }
 
-    // Selected bio
+    // Selected bio (if any)
     $selected_bio = NULL;
     if ($bio_source === 'discogs') {
       $selected_bio = $discogs_data['profile'] ?? NULL;
