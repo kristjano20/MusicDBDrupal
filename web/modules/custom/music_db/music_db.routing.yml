@@ -59,14 +59,6 @@ music_db.data_select_artist:
   requirements:
     _permission: "add artist"
 
-music_db.data_select_album:
-  path: "/album/fetch-data/{spotify_id}/{discogs_id}"
-  defaults:
-    _form: '\Drupal\music_db\Form\AlbumDataForm'
-    _title: "Fetch External Data"
-  requirements:
-    _permission: "add album"
-
 music_db.custom_artists:
   path: '/custom-artists'
   defaults:
@@ -122,6 +114,14 @@ entity.album.add_page:
   requirements:
     _permission: "add album"
 
+music_db.data_select_album:
+  path: "/album/fetch-data/{spotify_id}/{discogs_id}"
+  defaults:
+    _form: '\Drupal\music_db\Form\AlbumDataForm'
+    _title: "Fetch External Data"
+  requirements:
+    _permission: "add album"
+
 entity.album.edit_form:
   path: "/album/{album}/edit"
   defaults:
@@ -172,6 +172,14 @@ entity.song.add_page:
     _controller: '\Drupal\Core\Entity\Controller\EntityController::addPage'
     _title: "Add song"
     entity_type_id: "song"
+  requirements:
+    _permission: "add song"
+
+music_db.data_select_song:
+  path: "/song/fetch-data/{spotify_id}"
+  defaults:
+    _form: '\Drupal\music_db\Form\SongDataForm'
+    _title: "Fetch External Data"
   requirements:
     _permission: "add song"
 
