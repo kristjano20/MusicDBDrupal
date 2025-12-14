@@ -200,16 +200,35 @@ class MusicSearchForm extends FormBase {
     }
     if ($entity_type === 'album') {
       $data = [];
+      $seen_albums = [];
       foreach ($spotify_items as $item) {
-        $data[] = [
-          'name' => $item['name'],
-          'spotify_id' => $item['id'] ?? '',
-          'discogs_id' => '',
-          'artist_names' => $item['artist_names'] ?? [],
-        ];
+        $album_name = $item['name'] ?? '';
+        $artist_names = $item['artist_names'] ?? [];
+        $spotify_id = $item['id'] ?? '';
+        
+        if (empty($album_name) || empty($spotify_id)) {
+          continue;
+        }
+        
+        // Deduplicate by normalized album name + artist combination
+        // This ensures we only show one entry per unique album, even if Spotify has multiple releases
+        $normalized_name = mb_strtolower(trim($album_name));
+        $normalized_artists = array_map(function($a) { return mb_strtolower(trim($a)); }, $artist_names);
+        sort($normalized_artists);
+        $key = $normalized_name . '|' . implode(',', $normalized_artists);
+        
+        if (!isset($seen_albums[$key])) {
+          $data[] = [
+            'name' => $album_name,
+            'spotify_id' => $spotify_id,
+            'discogs_id' => '',
+            'artist_names' => $artist_names,
+          ];
+          $seen_albums[$key] = TRUE;
+        }
       }
     } else {
-      $data = MusicSearchDataHelper::combineResults($spotify_items, $discogs_items, $entity_type, $artist_name);
+      $data = MusicSearchDataHelper::combineResults($spotify_items, $discogs_items);
     }
     if (empty($data)) {
       $build['no_results'] = [
@@ -221,8 +240,6 @@ class MusicSearchForm extends FormBase {
 
     // Limit to top 20 results
     $data = array_slice($data, 0, 20);
-
-    $form_state->set($entity_type . '_data', $data);
     $labels = ['artist' => $this->t('Artist Name'), 'album' => $this->t('Album Name'), 'song' => $this->t('Song Name')];
     $button_texts = ['artist' => $this->t('Add Selected Artist'), 'album' => $this->t('Add Selected Album'), 'song' => $this->t('Add Selected Song')];
 
@@ -338,13 +355,10 @@ class MusicSearchForm extends FormBase {
     $tempstore->set('selected_song', [
       'name' => $selected['name'],
       'spotify_id' => $selected['spotify_id'] ?? '',
-      #'discogs_id' => $selected['discogs_id'] ?? '',
     ]);
 
-    $this->messenger()->addMessage($this->t('Song selected: @name', ['@name' => $selected['name']]));
     $form_state->setRedirect('music_db.data_select_song', [
       'spotify_id' => $selected['spotify_id'] ?? 'none',
-      #'discogs_id' => $selected['discogs_id'] ?? 'none',
     ]);
   }
 

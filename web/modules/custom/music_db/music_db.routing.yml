@@ -60,22 +60,21 @@ music_db.data_select_artist:
     _permission: "add artist"
 
 music_db.custom_artists:
-  path: '/custom-artists'
+  path: "/custom-artists"
   defaults:
     _controller: '\Drupal\music_db\Controller\ArtistListController::list'
-    _title: 'Custom Artists'
+    _title: "Custom Artists"
   requirements:
-    _permission: 'access content'
+    _permission: "access content"
 
 music_db.custom_artists_letter:
-  path: '/custom-artists/{letter}'
+  path: "/custom-artists/{letter}"
   defaults:
     _controller: '\Drupal\music_db\Controller\ArtistListController::list'
-    _title: 'Artists'
+    _title: "Artists"
   requirements:
-    _permission: 'access content'
-    letter: '[A-Za-z]'
-
+    _permission: "access content"
+    letter: "[A-Za-z]"
 
 #----------------------------------------------------
 # Album routes
@@ -139,12 +138,12 @@ entity.album.delete_form:
     _permission: "delete album"
 
 music_db.custom_albums:
-  path: '/custom-albums'
+  path: "/custom-albums"
   defaults:
     _controller: '\Drupal\music_db\Controller\AlbumListController::list'
-    _title: 'Custom Albums'
+    _title: "Custom Albums"
   requirements:
-    _permission: 'access content'
+    _permission: "access content"
 
 #----------------------------------------------------
 # Song routes
@@ -208,115 +207,12 @@ entity.song.canonical:
     _entity_access: "song.view"
 
 music_db.custom_songs:
-  path: '/custom-songs'
+  path: "/custom-songs"
   defaults:
     _controller: '\Drupal\music_db\Controller\SongListController::list'
-    _title: 'Custom Songs'
-  requirements:
-    _permission: 'access content'
-
-#----------------------------------------------------
-# Spotify routes
-#----------------------------------------------------
-
-music_db.spotify_search_form:
-  path: "/admin/music-search/spotify"
-  defaults:
-    _form: '\Drupal\music_db\Form\SpotifySearchForm'
-    _title: "Spotify search"
-  requirements:
-    _permission: "access administration pages"
-
-music_db.spotify_artist_autocomplete:
-  path: "/music_db/autocomplete/spotify/artist"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\SpotifyAutocompleteController::handleAutocomplete'
-    type: "artist"
-    _format: "json"
+    _title: "Custom Songs"
   requirements:
     _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-music_db.spotify_album_autocomplete:
-  path: "/music_db/autocomplete/spotify/album"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\SpotifyAutocompleteController::handleAutocomplete'
-    type: "album"
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-music_db.spotify_song_autocomplete:
-  path: "/music_db/autocomplete/spotify/song"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\SpotifyAutocompleteController::handleAutocomplete'
-    type: "song"
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-#----------------------------------------------------
-# Discogs routes
-#----------------------------------------------------
-
-music_db.discogs_artist_autocomplete:
-  path: "/music_db/autocomplete/discogs/artist"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\DiscogsAutocompleteController::handleAutocomplete'
-    type: "artist"
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-music_db.discogs_album_autocomplete:
-  path: "/music_db/autocomplete/discogs/album"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\DiscogsAutocompleteController::handleAutocomplete'
-    type: "album"
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-music_db.discogs_song_autocomplete:
-  path: "/music_db/autocomplete/discogs/song"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\DiscogsAutocompleteController::handleAutocomplete'
-    type: "song"
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
-
-#----------------------------------------------------
-# Lookup routes
-#----------------------------------------------------
-
-music_db.artist_id_lookup:
-  path: "/music_db/lookup/artist-id"
-  defaults:
-    _controller: '\Drupal\music_db\Controller\ArtistIdLookupController::lookupId'
-    _format: "json"
-  requirements:
-    _permission: "access content"
-  options:
-    _auth:
-      - "cookie"
 
 #----------------------------------------------------
 # Music Search routes
