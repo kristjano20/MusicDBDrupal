@@ -5,7 +5,7 @@
 ## Authors
 - Lára Amelía Kowalczyk
 - Kristján Werner Óskarsson
-- Krummi Poomi Gunnarsson
+  - Krummi Poomi Gunnarsson
 
 
 
@@ -71,7 +71,7 @@ The main implementation is for **modular music search service** that integrates 
 The system is designed so that:
 - Each external music provider is implemented as its own Drupal module
 - A shared MusicSearchService acts as a unified interface between the application and external APIs
-- Music content such as Artists, Albums, and Songs can be created, viewed, edited, and removed through custom Drupal entities
+- Music content such as Artists, Albums, and Songs can be created, viewed, and removed through custom Drupal entities
 - Data for these entities can be entered manually or retrieved from external APIs such as Spotify and Discogs
 - Autocomplete functionality is used to assist users in selecting correct music data from external sources
 
@@ -85,7 +85,7 @@ The system is designed so that:
 - Type in the desired title or name. A list of options should appear (data from spotify and discogs)
 - Select the desired content and proceed to the next page.
 - Select the desired data you would like to use between the providers (images, informations, descriptions, IDs, etc )
-- Fill or edit any information that you desire
+- Fill any information that you desire
 - Save
 
 
@@ -93,6 +93,5 @@ Congrats! You have now created your custom entity.
 
 **View your created contents**
 - Navigate through Music Database and then "View Artist", "View Albums" or "View Songs" to find your created contents
-- (additional display pages has been created for them through /custom-artists, /custom-albums and /custom-songs)
 
 ---
