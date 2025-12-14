@@ -205,18 +205,15 @@ class MusicSearchForm extends FormBase {
         $album_name = $item['name'] ?? '';
         $artist_names = $item['artist_names'] ?? [];
         $spotify_id = $item['id'] ?? '';
-        
+
         if (empty($album_name) || empty($spotify_id)) {
           continue;
         }
-        
-        // Deduplicate by normalized album name + artist combination
-        // This ensures we only show one entry per unique album, even if Spotify has multiple releases
         $normalized_name = mb_strtolower(trim($album_name));
         $normalized_artists = array_map(function($a) { return mb_strtolower(trim($a)); }, $artist_names);
         sort($normalized_artists);
         $key = $normalized_name . '|' . implode(',', $normalized_artists);
-        
+
         if (!isset($seen_albums[$key])) {
           $data[] = [
             'name' => $album_name,
